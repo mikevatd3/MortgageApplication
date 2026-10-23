@@ -10,7 +10,7 @@ from mortgageapplication import load_prompt_template
 CHALLENGE = "challenge_tables_2026-10-23_full"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 MODEL = "google/gemma-2-9b-it"
-OUT_PATH = DATA_DIR / "rankings__city_only.csv"
+OUT_PATH = DATA_DIR / "rankings__name_only.csv"
 
 INT_LIST = re.compile(r"\d+(,\d+)*")
 
@@ -44,7 +44,7 @@ def main():
     rows = []
     for _, file in tqdm.tqdm(manifest.iterrows(), total=len(manifest)):
         frame = pd.read_csv(DATA_DIR / f"{file.fileid}.csv")
-        frame = frame[CITY_ONLY_COLS]
+        frame = frame[NAME_ONLY_COLS]
 
         prompt = prompt_template.format(table=frame.to_csv(), n=len(frame))
 
