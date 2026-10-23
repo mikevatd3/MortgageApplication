@@ -1,9 +1,11 @@
 Mortgage Sales Team — Daily Follow-Up Report
 
-Status: Loan estimates sent, awaiting client response.
+Good morning team!
 
-Client table:
+For the following {n} clients we have sent out loan estimate documents but have yet to hear back.
 
 {table}
 
-Priority ranking (all {n} client ids, most to least likely to close, comma-separated, no spaces):
+Below I've prioritized these clients by how likely I believe they are to close, so we can focus on the best prospects first.
+
+Here is my list, ordered by their 'id' (1-{n}), comma-separated, no spaces: 

@@ -3,6 +3,7 @@ import pandas as pd
 
 
 CHALLENGE = "challenge_tables_2026-10-23_full"
+RESULT_NAME = "rankings__city_only.csv"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 
 
@@ -21,7 +22,7 @@ def find_index(frame):
 
 
 def main():
-    frame = pd.read_csv(DATA_DIR / "rankings__city_only.csv")
+    frame = pd.read_csv(DATA_DIR / RESULT_NAME)
 
     frame["outcome"] = find_index(frame)
 

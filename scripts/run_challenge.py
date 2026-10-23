@@ -57,6 +57,8 @@ def main():
             tqdm.tqdm.write(f"{file.fileid}: empty output, raw={tok.decode(new_tokens)!r}")
 
         ranking, error = validate_ranking(output, len(frame))
+        if error:
+            tqdm.tqdm.write(f"{file.fileid}: invalid ranking ({error}): {output.strip()!r}")
         rows.append({
             "batch": file.batch,
             "position": file.position,
