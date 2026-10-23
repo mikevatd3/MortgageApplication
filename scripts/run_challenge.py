@@ -7,7 +7,7 @@ import tqdm
 
 from mortgageapplication import load_prompt_template
 
-CHALLENGE = "challenge_tables_2026-10-23"
+CHALLENGE = "challenge_tables_2026-10-23_full"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 MODEL = "google/gemma-2-9b-it"
 OUT_PATH = DATA_DIR / "rankings.csv"
