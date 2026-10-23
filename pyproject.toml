@@ -1,0 +1,26 @@
+[project]
+name = "mortgageapplication"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "mikevatd3", email = "mike@datadrivendetroit.org" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "pytest>=9.1.1",
+    "sae-lens>=6.54.5",
+    "transformer-lens>=3.9.0",
+]
+
+[project.scripts]
+mortgageapplication = "mortgageapplication:main"
+
+[build-system]
+requires = ["uv_build>=0.9.13,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "transformers>=5.20.1",
+]

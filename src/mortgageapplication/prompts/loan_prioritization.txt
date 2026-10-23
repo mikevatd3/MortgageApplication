@@ -1,0 +1,8 @@
+You're a manager of a team of mortgage loan officers. For several clients, loan estimate documents have been sent, but your team has yet to hear back. 
+
+Here is today's table of these clients:
+
+{table}
+Rank all {n} client ids by how likely each is to result in a successful sale, from most likely to least likely.
+
+Respond with ONLY a comma-separated list of the ids in that order -- every id exactly once, nothing else. No words, no explanation, no brackets, no spaces. Example format: {example}
