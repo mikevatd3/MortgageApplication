@@ -1053,6 +1053,7 @@ source = { editable = "." }
 dependencies = [
     { name = "pytest" },
     { name = "sae-lens" },
+    { name = "tqdm" },
     { name = "transformer-lens" },
 ]
 
@@ -1065,6 +1066,7 @@ dev = [
 requires-dist = [
     { name = "pytest", specifier = ">=9.1.1" },
     { name = "sae-lens", specifier = ">=6.54.5" },
+    { name = "tqdm", specifier = ">=4.70.1" },
     { name = "transformer-lens", specifier = ">=3.9.0" },
 ]
 
