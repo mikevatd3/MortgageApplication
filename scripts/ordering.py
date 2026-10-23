@@ -15,6 +15,7 @@ Draft measurement strategy: how does gemma-2-9b-it order a list of dates?
    dates, and see whether the emitted order changes the way the story predicts.
 """
 
+import time
 from dataclasses import dataclass
 
 import torch
@@ -155,12 +156,17 @@ def main():
     model = HookedTransformer.from_pretrained(
         MODEL, dtype=torch.bfloat16, device_map="auto"
     )
-    model.set_use_attn_result(True)  # per-head outputs for DLA (memory heavy)
     model.eval()
+    print(f"loaded on {model.cfg.device}, {model.cfg.n_layers} layers", flush=True)
 
     tokens, prompt_len = build_tokens(model)
+    print(f"prompt is {prompt_len} tokens; generating...", flush=True)
+    t0 = time.time()
     full = generate_answer(model, tokens)
-    print(model.tokenizer.decode(full[0, prompt_len:]))
+    print(f"generated {full.shape[1] - prompt_len} tokens in {time.time() - t0:.0f}s", flush=True)
+    print(model.tokenizer.decode(full[0, prompt_len:]), flush=True)
+
+    model.set_use_attn_result(True)  # per-head outputs for DLA, only needed for the cached pass
 
     slots = find_slots(model, full, prompt_len)
     cand = candidate_ids(model)
@@ -168,6 +174,7 @@ def main():
     print("emitted order:", [s.emitted for s in slots])
     print("correct order:", sorted(listed, key=MONTHS.index))
 
+    print("running cached forward pass...", flush=True)
     with torch.no_grad():
         logits, cache = model.run_with_cache(full, prepend_bos=False)
 
