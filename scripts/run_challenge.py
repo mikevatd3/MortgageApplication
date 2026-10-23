@@ -9,7 +9,7 @@ from mortgageapplication import load_prompt_template
 
 CHALLENGE = "challenge_tables_2026-10-23T07:55:10.569317"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
-MODEL = "google/gemma-2-9b"
+MODEL = "google/gemma-2-9b-it"
 OUT_PATH = DATA_DIR / "rankings.csv"
 
 INT_LIST = re.compile(r"\d+(,\d+)*")
@@ -46,7 +46,10 @@ def main():
         inputs = tok(prompt, return_tensors="pt").to(model.device)
         out = model.generate(**inputs, max_new_tokens=20, do_sample=False)
 
-        output = tok.decode(out[0][inputs.input_ids.shape[1]:], skip_special_tokens=True)
+        new_tokens = out[0][inputs.input_ids.shape[1]:]
+        output = tok.decode(new_tokens, skip_special_tokens=True)
+        if not output.strip():
+            tqdm.tqdm.write(f"{file.fileid}: empty output, raw={tok.decode(new_tokens)!r}")
 
         ranking, error = validate_ranking(output, len(frame))
         rows.append({
