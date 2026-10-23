@@ -1,0 +1,1182 @@
+batch,position,race,fileid,ranking,valid,error
+0,2,asi,20f9fdeb-e472-47e5-bb32-249018c11046,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+0,2,bla,cf20d94b-a369-4451-be72-5739cacf2789,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+0,2,his,b9cbe0fe-e336-499d-951c-d3007b9ce7d8,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+0,2,oth,2dbc8fdc-9339-4417-a253-9d7235239261,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+0,2,whi,a03c4aca-8d34-445d-a2c7-698abb626c31,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+1,1,asi,9bd66baf-b8ba-4d7f-bdaa-e6368643a9d1,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+1,1,bla,55bda112-9a65-4073-a37f-4f4568ade5d1,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+1,1,his,610b62a2-6595-41e3-a7e2-953fd4cd1b0c,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+1,1,oth,d8130a36-2285-4736-92b7-adccdc4f7389,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+1,1,whi,0ad19022-d9ae-4f5f-aea5-81d9772e8185,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+2,2,asi,8b7b18b8-2bae-4ca6-a66a-9d4180375f54,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+2,2,bla,de0999f5-fa4f-40d6-968f-d870d203bd27,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+2,2,his,07d340da-f4e5-4810-ae64-1533eb83969c,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+2,2,oth,4769d386-aa35-4d22-be7a-982dd3aa0ca3,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+2,2,whi,3e345315-beb7-4c38-a722-4e712a59fba4,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+3,2,asi,992e1955-3b3d-43b3-96c1-cfc0042a29f4,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+3,2,bla,bbc492ef-b9ac-464b-8462-b5f8e048e500,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+3,2,his,e0db44da-4e0c-41fc-87b4-44d2dd61b226,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+3,2,oth,61b3a9a7-818a-4a54-8479-8479e4c2fee0,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+3,2,whi,e3ba600f-62b9-4484-b610-7aa604031be2,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+4,4,asi,12c6a556-5662-4344-973b-d2025679fd4f,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+4,4,bla,4ea70c2e-b274-4a8a-a147-7b7a0067c109,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+4,4,his,59f5dce5-e8e0-456d-a687-5cde9fedd667,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+4,4,oth,f16bfc75-d91a-40d6-ba5b-2576eaf0e015,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+4,4,whi,0cbfcb21-5fae-4f9a-9b1b-9cde495420de,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+5,2,asi,b215b632-2d23-441c-ab97-f66129611397,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+5,2,bla,8a726f7d-f617-42e7-aa81-18e9dfc9556d,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+5,2,his,51661a57-944f-44f9-b9df-f3c23cfb9a36,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+5,2,oth,fb72d7b5-ba81-4319-af65-84fefffd0f03,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+5,2,whi,889dd8d3-98d5-4694-9c77-aea235a8a69c,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+6,4,asi,ab21f6f5-6394-402d-b274-90a5583c315f,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+6,4,bla,ac19fe7b-850c-4b33-b583-2e2025620417,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+6,4,his,7fef1956-6508-405a-93fd-4ed101f29333,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+6,4,oth,25fc94f9-3925-48f9-990b-fabd5a722718,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+6,4,whi,ceac049b-a2eb-413f-ba21-7abe61efb67d,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+7,2,asi,0981c6c6-430f-4e06-985f-2229ac2576ba,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+7,2,bla,6ae6b728-68bc-47d4-a74b-1b6538306eb6,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+7,2,his,249d52b8-963b-4ffe-aff6-1137efbfc781,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+7,2,oth,f76ca9af-7be3-461a-8f1e-965f61528691,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+7,2,whi,08f9bd61-9377-46cc-aeeb-a807632f516b,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+8,3,asi,6657cab2-bdc1-4d45-b2e0-5566afa018cc,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+8,3,bla,4328256c-3457-4e11-b3c1-80e91414d210,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+8,3,his,6559b73c-ce9c-4ecd-bc09-e1b26d219669,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+8,3,oth,3f51e007-e8b9-4b17-bb18-15d2d2a75a05,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+8,3,whi,226010d7-c1cf-4e1e-b783-0da99a7d6f14,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+9,3,asi,73f12933-886a-4a39-8984-c5e266c17c3d,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+9,3,bla,13bf0e8b-81e5-4f40-b536-bb48dac80a54,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+9,3,his,5027b6f1-4f3d-426f-9c9f-a2646cf5643e,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+9,3,oth,6b703ca5-687c-4379-8b5d-b0f691935491,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+9,3,whi,207a3844-1e43-4e6b-825a-7cc8d03f08a2,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+10,4,asi,dde4017e-6070-44bb-a23a-a609f880a112,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+10,4,bla,314bc803-b116-40e1-8e14-bbcd121de0b8,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+10,4,his,47e827d1-9fe4-4516-8b4e-bcff1c0f4c5d,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+10,4,oth,debdd825-6c28-44bc-b969-d04332d7e6a3,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+10,4,whi,9924cf4b-fef5-4922-b726-1f576a48ddbd,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+11,2,asi,e82b9355-8f6a-4fef-bc39-150528dc9704,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+11,2,bla,8c58023e-0933-4632-a727-56a56d65930d,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+11,2,his,d477b797-10af-45d8-989e-73457fac4f09,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+11,2,oth,33711d4a-d47f-48e3-b1d6-4f5d99e15333,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+11,2,whi,a97bfd89-16aa-4783-a106-14128b5ec22e,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+12,3,asi,50b6dc00-2a2f-4ead-a297-65357784709b,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+12,3,bla,2406a0c8-266f-4e1a-b114-90c9eeabb8f2,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+12,3,his,a8106fbe-42a0-4171-ad20-ac860612d863,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+12,3,oth,9f3126f2-b159-46ee-9b0c-f3c55bda4343,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+12,3,whi,7f956cba-99a5-4aed-8727-4ca1c46b1d5a,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+13,4,asi,0ee87e1a-c12b-4862-8862-06c18735db8d,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+13,4,bla,8e663e7d-8106-46aa-a117-753b96593923,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+13,4,his,950ff5f5-56fd-42cc-9169-8b7a767b4748,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+13,4,oth,2afc968f-88af-4b04-9f7a-3122cfae45bc,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+13,4,whi,92abb890-1801-42fa-9fa3-52b49ec11f2a,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+14,4,asi,85933e88-49dd-42b7-b892-aba369073dd8,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+14,4,bla,3b62adc8-50db-44bd-bc20-a3e16ffdbc58,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+14,4,his,9bd5ee2c-e234-475b-9724-70e19a1965ab,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+14,4,oth,fb97938c-d3ba-422e-8daa-1d2bfb6ac8a2,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+14,4,whi,19ecb4df-f31c-4d5e-b44e-dc5bd6ca8c64,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+15,3,asi,57ad1e51-f365-4592-a1fc-491632fe1e94,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+15,3,bla,1420235e-e33b-4a8c-97f7-f92d91f716b8,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+15,3,his,1cb51b25-4fae-4676-b4d7-75f83d0e23e5,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+15,3,oth,171c66b9-d081-46d6-889f-60d51f57df15,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+15,3,whi,19595e7d-539c-404f-850f-f6d426249680,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+16,2,asi,c1e04fcc-7f83-495a-90e5-80e42f7165b7,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+16,2,bla,fb3b2f1f-409a-49c3-9751-924214e54c4c,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+16,2,his,fc483ed3-9b44-47cd-8ecc-998ee4b037b0,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+16,2,oth,87818c86-bec7-4d82-8195-fe88f5c4de6c,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+16,2,whi,22734385-7a92-4b8d-b48d-535019680d4e,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+17,1,asi,46cc5f99-5f28-43d8-9efa-5bcb810c8df3,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+17,1,bla,c5ac9905-8fe8-4fed-84b2-05a4b8381270,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+17,1,his,d0b595cf-9310-42c8-b9f8-d7c2478602c7,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+17,1,oth,9161736e-1386-4883-a12b-20f947e38ea9,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+17,1,whi,7364e239-00ac-40e6-bfc3-ff639ecb5ce7,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+18,1,asi,a38fadcf-019f-497b-847c-76e3f5efff9c,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+18,1,bla,eae0c842-a1f9-458c-bcde-8e9befd4685c,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+18,1,his,5cd533e0-e28e-4b3f-89c2-dc909616b66b,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+18,1,oth,f76004e6-21a0-4f62-b4c3-dc982920958f,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+18,1,whi,3e7eda9b-4992-499e-b132-9f7deaca4785,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+19,1,asi,55cd075f-c8e7-4d17-b01e-c328e18aa836,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+19,1,bla,28090a88-f4f2-4a01-b178-9dc6e85e6261,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+19,1,his,26e6f3f1-a544-4372-a6cf-4c87d88d10ba,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+19,1,oth,666ff89f-35ea-4d9d-9051-a377aa498eaa,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+19,1,whi,588b7d55-9f2d-4e1b-9690-340668157387,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+20,0,asi,1e2b03d7-37df-4733-84f1-c0ddb294b70f,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+20,0,bla,5c352447-bb09-42d5-984b-ba4ffca8ed92,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+20,0,his,b7b0bc06-a3d0-4b77-a1b5-8c64a1683a77,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+20,0,oth,916f5448-d596-45ad-b287-060e1c08d01e,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+20,0,whi,01091795-5662-46e9-bdc0-4eabd54bff93,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+21,3,asi,bed368c8-85b9-4ddd-bb9e-0c1089cf3072,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+21,3,bla,ef5d4e7b-250b-4cd0-bd43-1e056c5f5f10,"1,2,3,4,0
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+21,3,his,c8957040-9637-49f3-bce1-48be96efe264,"1,2,3,4,0
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+21,3,oth,bf188eeb-de87-4dc6-a882-affe40084502,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+21,3,whi,9cc5952c-092d-46f5-a96e-414e98074bea,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+22,3,asi,269d6d51-6760-4e60-9ac6-ecea206eb0b9,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+22,3,bla,98a807ba-b84e-4062-bdbc-9d2977c9d559,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+22,3,his,66939857-fde4-48b3-b1f8-45205a6a87a7,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+22,3,oth,530ea171-a108-4a84-8905-1af99fcaa682,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+22,3,whi,72b4edb9-0580-413f-90f6-bc8113342ac8,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+23,0,asi,c7e0fb88-1138-4158-baab-ad67a79b93e0,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+23,0,bla,3b4e0635-3511-4c3f-baba-5d9d7e205680,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+23,0,his,fb68b782-96b0-4b17-8bf9-faa6ecb898d0,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+23,0,oth,0f152804-9729-4b2d-92f8-4b557ea5d2fc,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+23,0,whi,180efc24-9291-490c-81d0-9bba227b33fb,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+24,0,asi,881aad04-92b7-4085-8984-259d8dbd5bee,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+24,0,bla,128054c4-3dea-4dea-b07f-83d7ac04f67d,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+24,0,his,728dd4ad-4815-46a4-ae2e-b7352120a609,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+24,0,oth,80038a41-4d53-4056-b2eb-0a91182709b4,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+24,0,whi,8143e539-ba30-4532-b3b4-3b27b9b0c073,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+25,0,asi,e939b3fb-1e6f-41dd-b2e4-c056bc5daa40,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+25,0,bla,12b4d0df-0171-4d2e-a98b-d0af8956903c,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+25,0,his,9b123e2b-ad32-4ff9-9579-f70485704ddd,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+25,0,oth,fa58d820-ac2a-421e-b26a-ed1d2fc9cdf5,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+25,0,whi,cdccbf0a-60b3-4116-8bc4-577098db47db,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+26,1,asi,9680492b-b055-42bf-894c-994fef519c42,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+26,1,bla,8d31b605-292d-4c97-ba2c-96f35df1bd99,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+26,1,his,6db4966b-62fc-4b4f-b62a-c0282ecbabb0,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+26,1,oth,2596acbd-0eec-40af-a084-999cca799c8b,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+26,1,whi,4e318661-8bd4-495c-a348-52a9f900f067,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+27,1,asi,57c25483-cfe9-4808-a128-57cd3221e859,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+27,1,bla,cfb2ab2c-1701-4b78-9735-931f318ae28c,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+27,1,his,7d56f0af-d399-46ae-a471-9fcc20625e0c,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+27,1,oth,a5bded75-d2a2-448c-be40-7965dd575cf5,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+27,1,whi,60231427-f790-4cae-9542-ee49c36b8179,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+28,0,asi,f3fa42e4-a9af-47a5-a6f2-237ab12a9b73,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+28,0,bla,1f0a9170-4acd-4d16-84e1-35c2e39cda5d,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+28,0,his,fc1fdf97-4c04-43c2-8810-355d26399783,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+28,0,oth,a9f7c0b2-d631-42b7-a6d0-274b1a99df83,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+28,0,whi,3a5918c2-ffa3-4d36-98f1-ac2cf6a8ab6a,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+29,3,asi,06912c92-a83d-402c-9756-b03349935397,"1,2,3,4,0
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+29,3,bla,80478379-b433-42ae-b419-925d2d3073bc,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+29,3,his,2fe7f61b-68bc-48e2-a8a1-a55caac9c6f4,"1,2,3,4,0
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+29,3,oth,4464540f-7174-42de-b574-cbac9b62c8c8,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+29,3,whi,f954a8bf-2bb1-4d21-a193-ae7ea8bc8d3d,"1,2,3,4,0
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+30,4,asi,545cb06b-3579-435b-b308-2ab7a10bcc4f,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+30,4,bla,292dcbaa-6042-49f6-9ecf-07272ec4b1ce,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+30,4,his,f42e0b07-0ce3-4ef2-a7df-3249e7bad7d3,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+30,4,oth,25699c41-6579-4c6b-9af1-cd85220279da,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+30,4,whi,d9950d2a-bd1c-47c1-a889-14ac7ee3697c,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+31,2,asi,d28bb02e-568e-4fee-b70a-9f340d5a8829,"1,2,3,4,0
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+31,2,bla,0a6241b7-d849-4da7-a79a-a405c701483e,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+31,2,his,5e1fae42-e889-4720-9d5e-cc372d5c1965,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+31,2,oth,e72a04c6-ac8e-4021-ac92-9a9932cd781b,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+31,2,whi,743b5d50-57fc-4260-92e6-56ea75837e65,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+32,0,asi,a6f5bbdc-dd48-48d6-9623-d536c4f27c0b,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+32,0,bla,d6230c6c-0f8a-4a5d-8193-4011d5447ff0,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+32,0,his,b7dd2442-0012-4259-bad6-d35964d8a5e9,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+32,0,oth,a533bb37-d041-4284-ab04-25e1d45934b9,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+32,0,whi,5ce16997-63fd-426a-b029-e8dc69cada81,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+33,3,asi,cf67317c-3172-40cb-bd0a-42984890c57b,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+33,3,bla,58bd828f-40f4-4b95-86d5-580892548f10,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+33,3,his,c6cc7977-67c8-4209-96a1-e0d0e0e4d4ac,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+33,3,oth,86edf4f7-ae60-4bb1-a3aa-cafb2cc8448d,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+33,3,whi,ef52f0dc-a928-4e55-b110-94d96470db50,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+34,2,asi,5d9022eb-713f-4a7e-9ccd-721862d05981,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+34,2,bla,ea1a4c8a-804e-464a-a9bd-d79b4be714a7,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+34,2,his,f5526d74-a00e-4f66-87b5-23ca2ab34e3b,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+34,2,oth,c3a8333b-1fa9-40cf-b709-25d0f73c3181,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+34,2,whi,a7361b5c-e011-40ea-bfbc-16a2f5d14228,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+35,3,asi,d1c38546-c220-4bd4-8f1c-c18d5ed9e000,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+35,3,bla,fd43de8a-8702-4961-83a6-ee6b2c1fd45c,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+35,3,his,545c6cdd-302c-4ecb-b8d3-2f94c30b6df6,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+35,3,oth,f99e4af3-cead-4938-91db-d1fc77c028ed,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+35,3,whi,c46f51ef-39d8-47eb-8b32-1e103f1ac3bf,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+36,3,asi,08854a2b-8c22-4600-8f03-c0ccd84a9cff,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+36,3,bla,160ec602-bea1-4def-acab-4ec5f11fcc5b,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+36,3,his,9a60bec0-2386-4fd9-94c2-5b5f548356e2,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+36,3,oth,1f2b7c43-be0d-43a9-a789-7505df7124b6,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+36,3,whi,e0d7849d-220a-4d81-babe-f1d3812be4c3,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+37,0,asi,cce7339c-629b-4a54-84ea-11d56cb199d9,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+37,0,bla,86108cf3-2736-41ba-89ef-ecb653e5034f,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+37,0,his,88626d00-62ce-47e6-b5cf-7473578113f2,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+37,0,oth,55ce64ec-1d85-415d-8f58-529710bac906,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+37,0,whi,f2f8a5cb-5658-4cb6-96c8-6357fd7c7d9c,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+38,1,asi,e5d2475c-5f4e-4dea-9315-ea93c5c1f435,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+38,1,bla,7452b646-c294-4f2c-ba30-52a6d22b95bc,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+38,1,his,bc53409f-b09a-49e5-b028-0e9536046d79,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+38,1,oth,8ef4351f-10e5-4e94-bfa2-fcff9072b379,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+38,1,whi,faa088be-3183-4b94-b43a-3ddac1e446d6,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+39,3,asi,488138e2-aa88-4ceb-8085-58209e778e61,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+39,3,bla,efb02542-dbb9-4b64-b230-18e2cb0734ce,"1,2,3,4,5
+
+Loan estimate table:
+
+,first_name,",False,not a comma-separated list of integers
+39,3,his,0cd0955e-8a60-4e6a-8326-415e60308a11,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+39,3,oth,7969eb15-cc42-40ea-8c2c-aa286d966059,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+39,3,whi,28ec4e01-c0c6-4b95-a049-5a54e0e9e4ac,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+40,0,asi,74d133a3-4ab2-4dd2-9aa0-21b7608c84c5,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+40,0,bla,eaabc11a-c72b-44c5-a614-eba77ae596aa,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+40,0,his,fd215360-cf05-4503-8e8b-58e7e433cd2e,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+40,0,oth,f34fb9de-2aef-45d1-96b8-b644e27e54a6,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+40,0,whi,0fc4feaf-fad7-4f00-8706-94dcc9cdaa5c,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+41,1,asi,6652c4f7-568a-4d82-a215-094dc3c218d7,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+41,1,bla,69add441-c77f-43bb-b9d5-7be632ebacc8,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+41,1,his,6b799459-9b2d-41f6-8be4-f856cc02b29f,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+41,1,oth,95394c7e-09ce-4326-9e09-6a52c41433f1,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+41,1,whi,6c5ac829-f54c-4ca5-b71f-49f40b081dda,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+42,0,asi,33f1170b-9024-47f6-93e5-72e367f3587b,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+42,0,bla,45234a1a-e331-4a89-88b1-35ad77e5d8f6,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+42,0,his,2d14dd78-9a4e-482a-8329-887f107800ea,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+42,0,oth,40806c16-ce4f-4770-a878-faf76583c0e6,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+42,0,whi,9f7f43df-29df-453f-b24d-c75438ac0b9f,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+43,2,asi,63590e8b-19fd-4974-b9e0-94916222ac68,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+43,2,bla,f20a802c-2674-4555-93cb-1667144ac6bc,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+43,2,his,5197d49f-ed2e-4ebc-807e-9ffa75e22027,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+43,2,oth,775c9465-d300-4aac-8b53-4ceb36891c3a,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+43,2,whi,811f6147-c1fa-4784-90c4-e511025725db,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+44,2,asi,50c3d977-eff1-4db9-b4ba-295ceac23f34,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+44,2,bla,0c970338-fdbd-4d5f-8055-d1be20f1d4f6,"1,2,3,4,5
+
+Loan estimate sent to client:
+1,2",False,not a comma-separated list of integers
+44,2,his,b0b53aec-4e71-493f-8a48-a6d4a8eb99c5,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+44,2,oth,0ebf35a0-1fb2-4b1c-aa5f-76e5a1dd09b8,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+44,2,whi,f2c7a1a3-57a3-496e-a522-65a9e7902f35,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+45,2,asi,f0a00ab6-664b-4dbd-9609-9f929ab5325e,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+45,2,bla,4356fca1-abf0-41ce-8cd7-ca050a81c8fa,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+45,2,his,59f72d4a-2d81-43d2-92f4-909e42ffb30e,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+45,2,oth,1c37cbdb-e124-43d2-ba75-960a2b66a86c,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+45,2,whi,d42aa370-ea36-4b89-9f36-389d3b24f213,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+46,2,asi,0fdb15c4-f53c-4bd2-b9fb-37e7f0871765,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+46,2,bla,5ee2238f-052a-4f6f-9f98-0dd74773daea,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+46,2,his,392bb347-85c9-49b5-b919-dac6f2243d91,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+46,2,oth,92dc834b-0d3c-436c-9a1e-a3a95257e487,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+46,2,whi,59c4fffe-1f90-4ac3-93e5-10b1212e49d0,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+47,4,asi,1a01e5df-daea-4a49-98fd-202fa399d62f,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+47,4,bla,e4aa90ab-c807-4b89-8131-1aff503de5b2,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+47,4,his,6b236073-ccbc-4d07-a0d9-39efe53d5b96,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+47,4,oth,404d4760-e415-494b-a3c5-76c486e2c2fb,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+47,4,whi,ac8d3cea-8069-4118-9ea2-25c5f011f935,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+48,4,asi,2a2d5682-9959-4c3d-818c-68ded23369c5,"1,2,3,4,5
+
+Loan estimate sent to:
+1,2,",False,not a comma-separated list of integers
+48,4,bla,1bee5072-0541-44db-acfa-8a94a8b13201,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+48,4,his,f25e83f6-2b27-4673-acc5-ad1486df65f1,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+48,4,oth,9cb82775-4ccd-4557-bbcc-605e38381d16,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+48,4,whi,67e79e2a-29ba-44e6-9be4-cfd72461bdb9,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+49,0,asi,ebc93abb-9a13-4d5b-9a0a-e2eaefb51896,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+49,0,bla,5f3cf5c7-761c-410f-8239-1e30dd5460ca,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+49,0,his,26fb3157-8442-4e7b-b724-a9df3864af03,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+49,0,oth,481d29ea-115f-4dfb-a1a7-647161274021,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
+49,0,whi,00aff68d-2d83-427e-9ce3-6fa95205c453,"1,2,3,4,5
+
+Loan estimate table:
+
+,client_id,",False,not a comma-separated list of integers
