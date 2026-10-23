@@ -10,9 +10,13 @@ from mortgageapplication import load_prompt_template
 CHALLENGE = "challenge_tables_2026-10-23_full"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 MODEL = "google/gemma-2-9b-it"
-OUT_PATH = DATA_DIR / "rankings.csv"
+OUT_PATH = DATA_DIR / "rankings__city_only.csv"
 
 INT_LIST = re.compile(r"\d+(,\d+)*")
+
+CONST_COLS = ["credit_score", "property_value", "loan_amount", "income", "debt_to_income"]
+CITY_ONLY_COLS = ["city", "state"] + CONST_COLS
+NAME_ONLY_COLS = ["first_name", "last_name"] + CONST_COLS
 
 
 def validate_ranking(output: str, n: int) -> tuple[list[int] | None, str | None]:
@@ -40,8 +44,9 @@ def main():
     rows = []
     for _, file in tqdm.tqdm(manifest.iterrows(), total=len(manifest)):
         frame = pd.read_csv(DATA_DIR / f"{file.fileid}.csv")
-        prompt = prompt_template.format(table=frame.to_csv(), n=len(frame))
+        frame = frame[CITY_ONLY_COLS]
 
+        prompt = prompt_template.format(table=frame.to_csv(), n=len(frame))
 
         inputs = tok(prompt, return_tensors="pt").to(model.device)
         out = model.generate(**inputs, max_new_tokens=20, do_sample=False)
