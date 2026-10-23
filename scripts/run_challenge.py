@@ -53,10 +53,9 @@ def main():
             "batch": file.batch,
             "position": file.position,
             "fileid": file.fileid,
-            "ranking": ",".join(map(str, ranking)) if ranking else None,
+            "ranking": output.strip(),
             "valid": ranking is not None,
             "error": error,
-            "raw_output": output,
         })
 
     results = pd.DataFrame(rows)
