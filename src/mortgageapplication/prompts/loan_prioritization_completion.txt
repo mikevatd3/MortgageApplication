@@ -1,0 +1,9 @@
+Mortgage Sales Team — Daily Follow-Up Report
+
+Status: Loan estimates sent, awaiting client response.
+
+Client table:
+
+{table}
+
+Priority ranking (all {n} client ids, most to least likely to close, comma-separated, no spaces):

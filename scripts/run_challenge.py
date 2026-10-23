@@ -9,8 +9,8 @@ from mortgageapplication import load_prompt_template
 
 CHALLENGE = "challenge_tables_2026-10-23_full"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
-MODEL = "google/gemma-2-9b-it"
-OUT_PATH = DATA_DIR / "rankings__name_only.csv"
+MODEL = "google/gemma-2-9b"
+OUT_PATH = DATA_DIR / "rankings__completion.csv"
 
 INT_LIST = re.compile(r"\d+(,\d+)*")
 
@@ -39,12 +39,12 @@ def main():
     tok = AutoTokenizer.from_pretrained(MODEL)
     model = AutoModelForCausalLM.from_pretrained(MODEL, torch_dtype=torch.bfloat16, device_map="auto")
 
-    prompt_template = load_prompt_template("loan_prioritization.txt")
+    prompt_template = load_prompt_template("loan_prioritization_completion.txt")
 
     rows = []
     for _, file in tqdm.tqdm(manifest.iterrows(), total=len(manifest)):
         frame = pd.read_csv(DATA_DIR / f"{file.fileid}.csv")
-        frame = frame[NAME_ONLY_COLS]
+        # frame = frame[NAME_ONLY_COLS]
 
         prompt = prompt_template.format(table=frame.to_csv(), n=len(frame))
 
