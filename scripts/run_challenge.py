@@ -55,6 +55,7 @@ def main():
         rows.append({
             "batch": file.batch,
             "position": file.position,
+            "race": file.race,
             "fileid": file.fileid,
             "ranking": output.strip(),
             "valid": ranking is not None,
