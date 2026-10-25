@@ -8,4 +8,4 @@ For the following {n} clients we have sent out loan estimate documents but have 
 
 Below I've prioritized these clients by how likely I believe they are to close, so we can focus on the best prospects first.
 
-Here is my list, ordered by their 'id' (1-{n}), comma-separated, no spaces: 
+Here is my list, ordered by their 'id' (1-{n}), comma-separated, no spaces:

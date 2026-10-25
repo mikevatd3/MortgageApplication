@@ -1,0 +1,25 @@
+:root {
+  --canvas: #f6efe2;
+  --ink: #3b3228;
+  --rule: #e4d9c3;
+  --accent: #b5543c;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: inherit;
+  font-weight: normal;
+  color: var(--ink);
+}
+
+h2 { border-bottom: 1px solid var(--rule); padding-bottom: 0.2em; }
+
+a { color: var(--accent); }
+
+pre, code { background: #efe5d2; color: var(--ink); }

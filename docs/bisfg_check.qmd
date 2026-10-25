@@ -1,0 +1,79 @@
+---
+title: "Gemma-2-9b and race-sounding names"
+format:
+  html:
+    toc: true
+    code-fold: true
+    embed-resources: true
+    css: style.css
+execute:
+  warning: false
+jupyter: python3
+---
+
+## Loading the model and drawing the names dataset
+
+
+
+```{python}
+#| label: setup
+from pathlib import Path
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.io as pio
+import numpy as np
+
+pio.templates["watercolor"] = go.layout.Template(layout=dict(
+    colorway=["#5b7fa6", "#b5543c", "#8a9a5b", "#d9a441",
+              "#c98b8b", "#4f8a8b", "#8b6f9c"],
+    font=dict(family="Georgia, serif", color="#3b3228"),
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(0,0,0,0)",
+    xaxis=dict(gridcolor="#e4d9c3", linecolor="#3b3228"),
+    yaxis=dict(gridcolor="#e4d9c3", linecolor="#3b3228"),
+))
+pio.templates.default = "watercolor"
+```
+
+## Analysis
+
+```{python}
+#| label: load
+ROOT = Path.cwd().parent
+
+data = np.load(ROOT / "data" / "name_activations_gemma-2-9b.npz")
+X, y = data["X"], data["y"]
+X.shape
+```
+
+```{python}
+#| label: probe
+rng = np.random.default_rng(0)
+idx = rng.permutation(len(y))
+split = int(0.8 * len(y))
+train, test = idx[:split], idx[split:]
+
+mu, sd = X[train].mean(0), X[train].std(0) + 1e-6
+Xs = (X - mu) / sd
+
+lam = 10000.0
+A = Xs[train].T @ Xs[train] + lam * np.eye(X.shape[1])
+w = np.linalg.solve(A, Xs[train].T @ (y[train] - y[train].mean()))
+pred = Xs @ w + y[train].mean()
+
+r2 = 1 - ((y[test] - pred[test]) ** 2).sum() / ((y[test] - y[test].mean()) ** 2).sum()
+r2
+```
+
+```{python}
+#| label: fig-probe
+#| fig-cap: "Linear probe predictions on held-out names"
+fig = px.scatter(
+    x=y[test], y=pred[test],
+    labels={"x": "Black probability (BISG)", "y": "Probe prediction"},
+    title=f"Held-out R² = {r2:.2f}",
+)
+fig.add_shape(type="line", x0=0, y0=0, x1=1, y1=1, line=dict(dash="dash"))
+fig.show()
+```
