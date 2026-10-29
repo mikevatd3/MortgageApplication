@@ -25,13 +25,13 @@ import plotly.io as pio
 import numpy as np
 
 pio.templates["watercolor"] = go.layout.Template(layout=dict(
-    colorway=["#7fa6d0", "#d9826a", "#a3b06f", "#e0b050",
-              "#c98b8b", "#4f8a8b", "#8b6f9c"],
-    font=dict(family="Georgia, serif", color="#d8cfc0"),
+    colorway=["#a7c080", "#e69875", "#7fbbb3", "#dbbc7f",
+              "#d699b6", "#83c092", "#e67e80"],
+    font=dict(family="Georgia, serif", color="#d3c6aa"),
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
-    xaxis=dict(gridcolor="#3a352f", zerolinecolor="#4a443c", linecolor="#d8cfc0"),
-    yaxis=dict(gridcolor="#3a352f", zerolinecolor="#4a443c", linecolor="#d8cfc0"),
+    xaxis=dict(gridcolor="#3d484d", zerolinecolor="#475258", linecolor="#d3c6aa"),
+    yaxis=dict(gridcolor="#3d484d", zerolinecolor="#475258", linecolor="#d3c6aa"),
 ))
 pio.templates.default = "watercolor"
 
@@ -55,48 +55,119 @@ from plotly.offline import get_plotlyjs
 display(HTML(f"<script>{get_plotlyjs()}</script>"))
 ```
 
-## Linear probes
+## What we're testing
 
-Does the model's final hidden state at the last token of a name carry
-information about race? The probe is an ordinary least squares fit from the
-standardized activations to the BISG probability that the name belongs to a Black
-person. It is trained on every name, with no held-out set, so the R² below is
-in-sample.
-
-With fewer names than activation dimensions (3584) the fit is exact by
-construction, so an R² near 1 shows the probe has enough capacity, not that it
-generalizes.
+Each test is built from a table of five loan applicants. One of them, the test
+applicant, sits at the row given by `position`. The same table is built five
+times. Every number in it (credit score, property value, loan amount, income,
+debt-to-income) is identical across the five versions, and they differ only in
+the race signal given for the test applicant: a name or a city drawn to be most
+associated with white, Black, Hispanic, Asian or other applicants. The model
+reads one version at a time and is asked which applicants are most likely to
+close. If it only weighs the financials, the answer should not depend on which
+version it sees.
 
 ```{python}
-#| label: probe-fn
-def fit_probe(X, y):
-    """OLS on all rows. Returns predictions and in-sample R²."""
-    mu, sd = X.mean(0), X.std(0) + 1e-6
-    Xs = (X - mu) / sd
-    w = np.linalg.lstsq(Xs, y - y.mean(), rcond=None)[0]
-    pred = Xs @ w + y.mean()
+#| label: example-setup
+PROMPTS = ROOT / "src" / "mortgageapplication" / "prompts"
+CITY_ONLY_COLS = ["city", "state", "credit_score", "property_value", "loan_amount", "income", "debt_to_income"]
+
+manifest = pd.read_csv(CHALLENGE / "manifest.csv")
+example = manifest[manifest["batch"] == 0].set_index("race").loc[RACES]
+position = int(example["position"].iloc[0])
+white_table = pd.read_csv(CHALLENGE / f"{example.loc['whi', 'fileid']}.csv")
+```
+
+### One batch, five versions
+
+Batch 0. The test applicant is row `{python} position`, and only the name and city of
+that one row change between versions.
+
+```{python}
+#| label: tbl-example-versions
+example[["first_name", "last_name", "city"]].rename_axis("race version")
+```
+
+### The table
+
+The white version of that batch, as the model sees it in the selection test. The test applicant is
+row `{python} position` (counting from 0). The other four rows are identical in all five versions.
+
+```{python}
+#| label: tbl-example-table
+white_table
+```
+
+### Ranking prompt
+
+For the ranking tests the model gets the table with either the city columns
+(`city` and `state`) or the name columns (`first_name` and `last_name`), never
+both, and the table is written as CSV with a row index that the model uses as the
+applicant id. This is the city-only prompt for the same batch.
+
+```{python}
+#| label: prompt-ranking
+#| echo: false
+template = (PROMPTS / "loan_prioritization_ti.txt").read_text()
+print(template.format(table=white_table[CITY_ONLY_COLS].to_csv(), n=len(white_table)))
+```
+
+### Selection prompt
+
+For the selection test the model sees the whole table (names and cities) and
+completes the last line with a single applicant's name.
+
+```{python}
+#| label: prompt-selection
+#| echo: false
+template = (PROMPTS / "loan_selection_criteria_completion.txt").read_text()
+print(template.format(table=white_table.to_csv(index=False), n=len(white_table)))
+```
+
+## Linear model of names
+
+Does the model's final hidden state at the last token of a name carry
+information about race? An ordinary least squares fit maps the standardized
+activations to the BISG probability that the name belongs to a Black person.
+
+The 500 names are split into five folds. Each name's prediction comes from a
+model fit on the other four folds, so the model never sees the name it is
+predicting and every name is used for training in four of the five fits. A fit
+on all the names at once would match them exactly, because there are more
+activation dimensions (3584) than names, so the in-sample R² says nothing.
+
+```{python}
+#| label: fit-fn
+def cross_val_ols(X, y, folds=5, seed=0):
+    """Out-of-fold OLS predictions and R² (each row predicted by a model that never saw it)."""
+    idx = np.random.default_rng(seed).permutation(len(y))
+    pred = np.zeros(len(y))
+    for held_out in np.array_split(idx, folds):
+        train = np.setdiff1d(idx, held_out)
+        mu, sd = X[train].mean(0), X[train].std(0) + 1e-6
+        Xs = (X - mu) / sd
+        w = np.linalg.lstsq(Xs[train], y[train] - y[train].mean(), rcond=None)[0]
+        pred[held_out] = Xs[held_out] @ w + y[train].mean()
     r2 = 1 - ((y - pred) ** 2).sum() / ((y - y.mean()) ** 2).sum()
     return pred, r2
-
-def probe_figure(y, pred, r2, label):
-    fig = px.scatter(
-        x=y, y=pred,
-        labels={"x": label, "y": "Probe prediction"},
-        title=f"In-sample R² = {r2:.2f}",
-    )
-    fig.add_shape(type="line", x0=0, y0=0, x1=1, y1=1, line=dict(dash="dash", color="#8a8174"))
-    return fig
 ```
 
 ```{python}
 #| label: fig-names
-#| fig-cap: "OLS probe on name activations, all names"
+#| fig-cap: "Out-of-fold OLS predictions of Black probability from name activations"
 data = np.load(DATA / "name_activations_gemma-2-9b.npz")
 X_names, y_names = data["X"], data["y"]
 
-pred_names, r2_names = fit_probe(X_names, y_names)
+pred_names, r2_names = cross_val_ols(X_names, y_names)
 print(f"{X_names.shape[0]} names, {X_names.shape[1]} dimensions")
-show(probe_figure(y_names, pred_names, r2_names, "Black probability (BISG)"))
+
+fig = px.scatter(
+    x=y_names, y=pred_names,
+    labels={"x": "Black probability (BISG)", "y": "Linear model prediction"},
+    title=f"5-fold out-of-fold R² = {r2_names:.2f}",
+)
+fig.add_shape(type="line", x0=0, y0=0, x1=1, y1=1, line=dict(dash="dash", color="#859289"))
+show(fig)
 ```
 
 ## Ranking: does the applicant's race change their rank?

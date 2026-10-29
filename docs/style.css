@@ -1,8 +1,21 @@
+/* Everforest (dark, medium) */
 :root {
-  --canvas: #1f1c19;
-  --ink: #d8cfc0;
-  --rule: #3a352f;
-  --accent: #d9826a;
+  --bg-dim: #232a2e;
+  --canvas: #2d353b;
+  --bg1: #343f44;
+  --bg2: #3d484d;
+  --bg3: #475258;
+  --ink: #d3c6aa;
+  --muted: #859289;
+  --rule: #475258;
+  --red: #e67e80;
+  --orange: #e69875;
+  --yellow: #dbbc7f;
+  --green: #a7c080;
+  --aqua: #83c092;
+  --blue: #7fbbb3;
+  --purple: #d699b6;
+  --accent: var(--green);
 }
 
 body {
@@ -22,9 +35,53 @@ h2 { border-bottom: 1px solid var(--rule); padding-bottom: 0.2em; }
 
 a { color: var(--accent); }
 
-pre, code { background: #2a2622; color: var(--ink); }
+/* code boxes */
+div.sourceCode, pre, pre.sourceCode {
+  background: var(--bg-dim);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+}
+code, pre code, pre.sourceCode code { background: transparent; color: var(--ink); }
+:not(pre) > code:not(.sourceCode), p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode) {
+  background: var(--bg1) !important;
+  color: var(--orange) !important;
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+* { scrollbar-color: var(--bg3) var(--bg-dim); scrollbar-width: thin; }
+.cell-output pre, .cell-output-stdout pre, .cell-output-stderr pre { background: var(--bg1); color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+details.code-fold > summary, details > summary { color: var(--muted); }
+.code-copy-button { color: var(--muted); }
 
-table, .table { color: var(--ink); --bs-table-color: var(--ink); --bs-table-bg: transparent; --bs-table-striped-bg: #2a2622; }
+/* syntax highlighting */
+pre.sourceCode code span { color: var(--ink); }
+pre.sourceCode code span.kw, pre.sourceCode code span.cf { color: var(--red); }
+pre.sourceCode code span.im, pre.sourceCode code span.pp { color: var(--aqua); }
+pre.sourceCode code span.fu, pre.sourceCode code span.bu { color: var(--green); }
+pre.sourceCode code span.st, pre.sourceCode code span.ss, pre.sourceCode code span.vs, pre.sourceCode code span.sc, pre.sourceCode code span.ch { color: var(--aqua); }
+pre.sourceCode code span.dv, pre.sourceCode code span.fl, pre.sourceCode code span.bn, pre.sourceCode code span.cn { color: var(--purple); }
+pre.sourceCode code span.co, pre.sourceCode code span.an, pre.sourceCode code span.cv, pre.sourceCode code span.do, pre.sourceCode code span.in { color: var(--muted); font-style: italic; }
+pre.sourceCode code span.op { color: var(--orange); }
+pre.sourceCode code span.at, pre.sourceCode code span.dt, pre.sourceCode code span.ot { color: var(--yellow); }
+pre.sourceCode code span.va, pre.sourceCode code span.ex { color: var(--ink); }
+
+/* tables */
+table, .table {
+  color: var(--ink);
+  --bs-table-color: var(--ink);
+  --bs-table-bg: transparent;
+  --bs-table-striped-bg: var(--bg1);
+  --bs-table-striped-color: var(--ink);
+  --bs-table-border-color: var(--rule);
+  border-color: var(--rule);
+}
+table thead, table thead th { border-bottom: 1px solid var(--muted); }
+table td, table th { border-color: var(--rule); }
+
 .sidebar nav[role=doc-toc] ul > li > a, #TOC a, .quarto-title-meta { color: var(--ink); }
-details > summary { color: var(--ink); }
-figcaption, .figure-caption { color: #9a9184; }
+#TOC a.active, nav[role=doc-toc] a.active, nav[role=doc-toc] ul > li > a.active {
+  color: var(--accent) !important;
+  border-left-color: var(--accent) !important;
+}
+nav[role=doc-toc] ul, #TOC ul { border-left-color: var(--rule) !important; }
+figcaption, .figure-caption { color: var(--muted); }
