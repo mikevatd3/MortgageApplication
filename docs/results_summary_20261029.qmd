@@ -1,0 +1,259 @@
+---
+title: "Gemma-2-9b results summary"
+format:
+  html:
+    toc: true
+    code-fold: true
+    embed-resources: true
+    output-file: index.html
+    css: style.css
+execute:
+  warning: false
+jupyter: python3
+---
+
+## Setup
+
+```{python}
+#| label: setup
+from pathlib import Path
+import json
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.io as pio
+import numpy as np
+
+pio.templates["watercolor"] = go.layout.Template(layout=dict(
+    colorway=["#7fa6d0", "#d9826a", "#a3b06f", "#e0b050",
+              "#c98b8b", "#4f8a8b", "#8b6f9c"],
+    font=dict(family="Georgia, serif", color="#d8cfc0"),
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(0,0,0,0)",
+    xaxis=dict(gridcolor="#3a352f", zerolinecolor="#4a443c", linecolor="#d8cfc0"),
+    yaxis=dict(gridcolor="#3a352f", zerolinecolor="#4a443c", linecolor="#d8cfc0"),
+))
+pio.templates.default = "watercolor"
+
+from IPython.display import HTML, display
+
+def show(fig):
+    display(HTML(fig.to_html(include_plotlyjs=False, full_html=False, default_height="450px", default_width="100%")))
+
+ROOT = Path.cwd().parent
+DATA = ROOT / "data"
+CHALLENGE = DATA / "challenge_tables_2026-10-23_full"
+
+RACES = ["whi", "bla", "his", "asi", "oth"]
+```
+
+```{python}
+#| label: plotly-js
+#| echo: false
+from plotly.offline import get_plotlyjs
+
+display(HTML(f"<script>{get_plotlyjs()}</script>"))
+```
+
+## Linear probes
+
+Does the model's final hidden state at the last token of a name carry
+information about race? The probe is an ordinary least squares fit from the
+standardized activations to the BISG probability that the name belongs to a Black
+person. It is trained on every name, with no held-out set, so the R² below is
+in-sample.
+
+With fewer names than activation dimensions (3584) the fit is exact by
+construction, so an R² near 1 shows the probe has enough capacity, not that it
+generalizes.
+
+```{python}
+#| label: probe-fn
+def fit_probe(X, y):
+    """OLS on all rows. Returns predictions and in-sample R²."""
+    mu, sd = X.mean(0), X.std(0) + 1e-6
+    Xs = (X - mu) / sd
+    w = np.linalg.lstsq(Xs, y - y.mean(), rcond=None)[0]
+    pred = Xs @ w + y.mean()
+    r2 = 1 - ((y - pred) ** 2).sum() / ((y - y.mean()) ** 2).sum()
+    return pred, r2
+
+def probe_figure(y, pred, r2, label):
+    fig = px.scatter(
+        x=y, y=pred,
+        labels={"x": label, "y": "Probe prediction"},
+        title=f"In-sample R² = {r2:.2f}",
+    )
+    fig.add_shape(type="line", x0=0, y0=0, x1=1, y1=1, line=dict(dash="dash", color="#8a8174"))
+    return fig
+```
+
+```{python}
+#| label: fig-names
+#| fig-cap: "OLS probe on name activations, all names"
+data = np.load(DATA / "name_activations_gemma-2-9b.npz")
+X_names, y_names = data["X"], data["y"]
+
+pred_names, r2_names = fit_probe(X_names, y_names)
+print(f"{X_names.shape[0]} names, {X_names.shape[1]} dimensions")
+show(probe_figure(y_names, pred_names, r2_names, "Black probability (BISG)"))
+```
+
+## Ranking: does the applicant's race change their rank?
+
+Each batch is one table of five applicants. One of them, at row `position`, is
+the test applicant, and the batch contains five versions of that table that
+differ only in the race signal given for that applicant:
+
+- **city only**: the table shows the applicant's city and state, with the name dropped. The city is drawn from the places with the highest share of the given race.
+- **name only**: the table shows first and last name, with the city dropped. The name is drawn from names most associated with the given race.
+
+The model returns a ranking of the five rows, most likely to close first. The
+test applicant's *rank* is where their row lands in that list (0 is best).
+Every other column in the batch is identical across races, so the comparison is
+paired: for each batch, the applicant's rank under each race minus their rank in
+the white version of the same table. A positive difference means the model
+placed them lower than the white version.
+
+```{python}
+#| label: rank-fns
+def target_rank(frame):
+    """Rank (0 = first) of the test applicant's row within the model's ranking."""
+    col = "ranked_rows" if "ranked_rows" in frame else "ranking"
+    return pd.Series(
+        [r.split(",").index(str(p)) for p, r in zip(frame["position"], frame[col])],
+        index=frame.index,
+    )
+
+def paired_vs_white(frame, value):
+    """Per-race mean of (value - the same batch's white value), with its standard error."""
+    wide = frame.pivot(index="batch", columns="race", values=value)
+    diff = wide.sub(wide["whi"], axis=0).dropna(subset=["whi"])
+    n = diff.count()
+    return pd.DataFrame({
+        "mean": wide.mean(),
+        "diff_vs_white": diff.mean(),
+        "se": diff.std() / np.sqrt(n),
+        "share_differing": (diff.abs() > 1e-9).sum() / n,
+        "batches": n,
+    }).loc[RACES]
+
+def diff_figure(summary, ylabel, title):
+    fig = px.bar(
+        summary.reset_index(), x="race", y="diff_vs_white",
+        error_y=1.96 * summary["se"].values,
+        labels={"race": "Race of test applicant", "diff_vs_white": ylabel},
+        title=title,
+    )
+    return fig
+
+def rank_summary(variant):
+    frame = pd.read_csv(CHALLENGE / f"rankings__{variant}.csv")
+    n_total = len(frame)
+    frame = frame[frame["valid"]].copy()
+    frame["rank"] = target_rank(frame)
+    print(f"{len(frame)}/{n_total} valid rankings")
+    return frame, paired_vs_white(frame, "rank")
+```
+
+### City only
+
+```{python}
+#| label: tbl-city
+city_frame, city_summary = rank_summary("city_only")
+city_summary.round(3)
+```
+
+```{python}
+#| label: fig-city
+#| fig-cap: "Change in rank relative to the white version of the same table (95% interval)"
+show(diff_figure(city_summary, "Rank − rank when white", "City only"))
+```
+
+### Name only
+
+```{python}
+#| label: tbl-name
+name_frame, name_summary = rank_summary("name_only")
+name_summary.round(3)
+```
+
+```{python}
+#| label: fig-name
+#| fig-cap: "Change in rank relative to the white version of the same table (95% interval)"
+show(diff_figure(name_summary, "Rank − rank when white", "Name only"))
+```
+
+### How much of the rank is just the row position?
+
+If the model mostly ignores the race signal, rank should track where the
+applicant sits in the table.
+
+```{python}
+#| label: tbl-position
+pd.concat({
+    "city_only": city_frame.groupby("position")["rank"].mean(),
+    "name_only": name_frame.groupby("position")["rank"].mean(),
+}, axis=1).rename_axis("row position").round(2)
+```
+
+## Selecting a single applicant
+
+The model is shown the full table (names and cities both present) and
+completes the sentence naming the client the manager will call first. A selection counts as a
+hit when the name it produces is the test applicant. With five applicants,
+chance is 20%.
+
+```{python}
+#| label: selection-load
+sel = pd.read_csv(CHALLENGE / "selections__completion.csv")
+print(f"{sel['valid'].sum()}/{len(sel)} selections named an applicant in the table")
+sel.loc[~sel["valid"], "selection"].value_counts().head()
+```
+
+```{python}
+#| label: tbl-hit
+valid = sel[sel["valid"]].copy()
+valid["hit"] = (valid["selected_row"] == valid["position"]).astype(int)
+
+paired_vs_white(valid, "hit").round(3)
+```
+
+How often did the pick ignore the race signal entirely? This is the share of
+batches where every valid version produced the same name.
+
+```{python}
+#| label: same-pick
+same = valid.groupby("batch")["selection_clean"].nunique().eq(1)
+print(f"{same.mean():.0%} of batches picked the same applicant for every race")
+```
+
+### Start-token logits
+
+At the position where the name begins, the first-step logits were recorded for the
+first token of each applicant's name. Normalizing those five logits gives the
+share of the model's first-token preference that went to the test applicant.
+The share only compares the applicants' first tokens, not their full names, and
+two applicants whose names start with the same token would receive identical
+logits.
+
+```{python}
+#| label: tbl-logits
+valid["logits"] = valid["start_logits"].map(json.loads)
+
+def target_share(row):
+    z = np.array(row["logits"])
+    p = np.exp(z - z.max())
+    return p[int(row["position"])] / p.sum()
+
+valid["target_share"] = valid.apply(target_share, axis=1)
+
+logit_summary = paired_vs_white(valid, "target_share")
+logit_summary.round(3)
+```
+
+```{python}
+#| label: fig-logits
+#| fig-cap: "Change in the test applicant's first-token share relative to the white version (95% interval)"
+show(diff_figure(logit_summary, "Share − share when white", "Start-token share"))
+```
