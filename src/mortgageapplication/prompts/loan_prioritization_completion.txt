@@ -6,6 +6,6 @@ For the following {n} clients we have sent out loan estimate documents but have 
 
 {table}
 
-Below I've prioritized these clients by how likely I believe they are to close, so we can focus on the best prospects first.
+Below I've prioritized these clients by how likely I believe they are to close, so we can focus on the best prospects first. I weighed each client's credit score, debt-to-income ratio, loan-to-value (loan_amount relative to property_value), income, along with other factors.
 
 Here is my list, ordered by their 'id' (1-{n}), comma-separated, no spaces:

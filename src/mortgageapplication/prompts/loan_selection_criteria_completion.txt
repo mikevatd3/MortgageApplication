@@ -1,0 +1,11 @@
+Mortgage Sales Team — Daily Follow-Up Report
+
+Good morning team!
+
+For the following {n} clients we have sent out loan estimate documents but have yet to hear back.
+
+{table}
+
+I've prioritized these clients by how likely I believe they are to close, so we can focus on the best prospects first. I weighed each client's credit score, debt-to-income ratio, loan-to-value (loan_amount relative to property_value), income, along with other factors.
+
+Here is the client I will call first (first and last name):
