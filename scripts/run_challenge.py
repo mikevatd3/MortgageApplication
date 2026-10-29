@@ -61,11 +61,11 @@ def main():
         new_tokens = out[0][inputs.input_ids.shape[1]:]
         output = tok.decode(new_tokens, skip_special_tokens=True).strip().split("\n")[0]
         if not output.strip():
-            tqdm.tqdm.write(f"{file.fileid}: empty output, raw={tok.decode(new_tokens)!r}")
+            tqdm.tqdm.write(f"{file.fileid}: empty output, raw={tok.decode(new_tokens)!r} (ids={ids})")
 
         ranking, error = validate_ranking(output, len(frame))
         if error:
-            tqdm.tqdm.write(f"{file.fileid}: invalid ranking ({error}): {output.strip()!r}")
+            tqdm.tqdm.write(f"{file.fileid}: invalid ranking ({error}): {output.strip()!r} (ids by row={ids})")
         rows.append({
             "batch": file.batch,
             "position": file.position,
