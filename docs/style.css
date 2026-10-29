@@ -1,8 +1,8 @@
 :root {
-  --canvas: #f6efe2;
-  --ink: #3b3228;
-  --rule: #e4d9c3;
-  --accent: #b5543c;
+  --canvas: #1f1c19;
+  --ink: #d8cfc0;
+  --rule: #3a352f;
+  --accent: #d9826a;
 }
 
 body {
@@ -22,4 +22,9 @@ h2 { border-bottom: 1px solid var(--rule); padding-bottom: 0.2em; }
 
 a { color: var(--accent); }
 
-pre, code { background: #efe5d2; color: var(--ink); }
+pre, code { background: #2a2622; color: var(--ink); }
+
+table, .table { color: var(--ink); --bs-table-color: var(--ink); --bs-table-bg: transparent; --bs-table-striped-bg: #2a2622; }
+.sidebar nav[role=doc-toc] ul > li > a, #TOC a, .quarto-title-meta { color: var(--ink); }
+details > summary { color: var(--ink); }
+figcaption, .figure-caption { color: #9a9184; }

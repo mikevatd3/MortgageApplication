@@ -25,18 +25,31 @@ import plotly.io as pio
 import numpy as np
 
 pio.templates["watercolor"] = go.layout.Template(layout=dict(
-    colorway=["#5b7fa6", "#b5543c", "#8a9a5b", "#d9a441",
+    colorway=["#7fa6d0", "#d9826a", "#a3b06f", "#e0b050",
               "#c98b8b", "#4f8a8b", "#8b6f9c"],
-    font=dict(family="Georgia, serif", color="#3b3228"),
+    font=dict(family="Georgia, serif", color="#d8cfc0"),
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
-    xaxis=dict(gridcolor="#e4d9c3", linecolor="#3b3228"),
-    yaxis=dict(gridcolor="#e4d9c3", linecolor="#3b3228"),
+    xaxis=dict(gridcolor="#3a352f", zerolinecolor="#4a443c", linecolor="#d8cfc0"),
+    yaxis=dict(gridcolor="#3a352f", zerolinecolor="#4a443c", linecolor="#d8cfc0"),
 ))
 pio.templates.default = "watercolor"
+
+from IPython.display import HTML, display
+
+def show(fig):
+    display(HTML(fig.to_html(include_plotlyjs=False, full_html=False, default_height="450px", default_width="100%")))
 ```
 
 ## Analysis
+
+```{python}
+#| label: plotly-js
+#| echo: false
+from plotly.offline import get_plotlyjs
+
+display(HTML(f"<script>{get_plotlyjs()}</script>"))
+```
 
 ```{python}
 #| label: load
@@ -48,7 +61,7 @@ X.shape
 ```
 
 ```{python}
-#| label: probe
+#| label: split
 rng = np.random.default_rng(0)
 idx = rng.permutation(len(y))
 split = int(0.8 * len(y))
@@ -57,23 +70,60 @@ train, test = idx[:split], idx[split:]
 mu, sd = X[train].mean(0), X[train].std(0) + 1e-6
 Xs = (X - mu) / sd
 
+def r2_score(p):
+    return 1 - ((y[test] - p[test]) ** 2).sum() / ((y[test] - y[test].mean()) ** 2).sum()
+```
+
+## Ordinary least squares
+
+```{python}
+#| label: ols
+w_ols = np.linalg.lstsq(Xs[train], y[train] - y[train].mean(), rcond=None)[0]
+pred_ols = Xs @ w_ols + y[train].mean()
+r2_ols = r2_score(pred_ols)
+r2_ols
+```
+
+```{python}
+#| label: fig-ols
+#| fig-cap: "OLS probe predictions on held-out names"
+fig = px.scatter(
+    x=y[test], y=pred_ols[test],
+    labels={"x": "Black probability (BISG)", "y": "Probe prediction"},
+    title=f"Held-out R² = {r2_ols:.2f}",
+)
+fig.add_shape(type="line", x0=0, y0=0, x1=1, y1=1, line=dict(dash="dash", color="#8a8174"))
+show(fig)
+```
+
+## Ridge
+
+```{python}
+#| label: ridge
+# TODO: pick lam by cross-validation within the training set instead of fixing it
 lam = 10000.0
 A = Xs[train].T @ Xs[train] + lam * np.eye(X.shape[1])
 w = np.linalg.solve(A, Xs[train].T @ (y[train] - y[train].mean()))
 pred = Xs @ w + y[train].mean()
-
-r2 = 1 - ((y[test] - pred[test]) ** 2).sum() / ((y[test] - y[test].mean()) ** 2).sum()
+r2 = r2_score(pred)
 r2
 ```
 
 ```{python}
 #| label: fig-probe
-#| fig-cap: "Linear probe predictions on held-out names"
+#| fig-cap: "Ridge probe predictions on held-out names"
 fig = px.scatter(
     x=y[test], y=pred[test],
     labels={"x": "Black probability (BISG)", "y": "Probe prediction"},
     title=f"Held-out R² = {r2:.2f}",
 )
-fig.add_shape(type="line", x0=0, y0=0, x1=1, y1=1, line=dict(dash="dash"))
-fig.show()
+fig.add_shape(type="line", x0=0, y0=0, x1=1, y1=1, line=dict(dash="dash", color="#8a8174"))
+show(fig)
+```
+
+## Comparison
+
+```{python}
+#| label: comparison
+pd.DataFrame({"model": ["ols", "ridge"], "held_out_r2": [r2_ols, r2]})
 ```

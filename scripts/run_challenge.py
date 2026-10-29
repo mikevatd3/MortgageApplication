@@ -46,13 +46,13 @@ def main():
         frame = pd.read_csv(DATA_DIR / f"{file.fileid}.csv")
         # frame = frame[NAME_ONLY_COLS]
 
-        prompt = prompt_template.format(table=frame.to_csv(), n=len(frame))
+        prompt = prompt_template.format(table=frame.to_csv(index_label="id"), n=len(frame), last=len(frame) - 1)
 
         inputs = tok(prompt, return_tensors="pt").to(model.device)
         out = model.generate(**inputs, max_new_tokens=20, do_sample=False)
 
         new_tokens = out[0][inputs.input_ids.shape[1]:]
-        output = tok.decode(new_tokens, skip_special_tokens=True)
+        output = tok.decode(new_tokens, skip_special_tokens=True).strip().split("\n")[0]
         if not output.strip():
             tqdm.tqdm.write(f"{file.fileid}: empty output, raw={tok.decode(new_tokens)!r}")
 
