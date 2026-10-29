@@ -2,6 +2,7 @@ from pathlib import Path
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import pandas as pd
+import random
 import re
 import tqdm
 
@@ -10,6 +11,7 @@ from mortgageapplication import load_prompt_template
 CHALLENGE = "challenge_tables_2026-10-23_full"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 MODEL = "google/gemma-2-9b"
+SEED = 0
 OUT_PATH = DATA_DIR / "rankings__completion.csv"
 
 INT_LIST = re.compile(r"\d+(,\d+)*")
@@ -46,7 +48,12 @@ def main():
         frame = pd.read_csv(DATA_DIR / f"{file.fileid}.csv")
         # frame = frame[NAME_ONLY_COLS]
 
-        prompt = prompt_template.format(table=frame.to_csv(index_label="id"), n=len(frame), last=len(frame) - 1)
+        # Shuffle which id each row gets so ascending ids don't match table order.
+        ids = list(range(len(frame)))
+        random.Random(f"{SEED}-{file.fileid}").shuffle(ids)
+        frame.insert(0, "id", ids)
+
+        prompt = prompt_template.format(table=frame.to_csv(index=False), n=len(frame), last=len(frame) - 1)
 
         inputs = tok(prompt, return_tensors="pt").to(model.device)
         out = model.generate(**inputs, max_new_tokens=20, do_sample=False)
@@ -65,6 +72,8 @@ def main():
             "race": file.race,
             "fileid": file.fileid,
             "ranking": output.strip(),
+            "ids": ",".join(map(str, ids)),
+            "ranked_rows": ",".join(str(ids.index(i)) for i in ranking) if ranking else None,
             "valid": ranking is not None,
             "error": error,
         })
