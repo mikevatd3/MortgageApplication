@@ -32,6 +32,23 @@ def undo_softcap(logits, model):
     return torch.atanh(logits / cap) * cap if cap > 0 else logits
 
 
+def residual_contributions(cache, n_layers):
+    """What the embedding, then each layer's attention and MLP, actually added to the last position's stream.
+
+    Differences of the residual stream at each stage, rather than the block output hooks: Gemma 2 applies
+    extra norms and scaling around the blocks, so the hooked outputs don't add up to the stream, but
+    these differences do by construction.
+    """
+    labels = ["embed"]
+    parts = [cache["blocks.0.hook_resid_pre"][0, -1]]
+    for layer in range(n_layers):
+        pre, mid, post = (cache[f"blocks.{layer}.{hook}"][0, -1]
+                          for hook in ("hook_resid_pre", "hook_resid_mid", "hook_resid_post"))
+        labels += [f"{layer}_attn_out", f"{layer}_mlp_out"]
+        parts += [mid - pre, post - mid]
+    return torch.stack(parts), labels
+
+
 def main():
     listings = pd.read_csv(LISTINGS_PATH)
     template = load_prompt_template("loan_approval_completion.txt")
@@ -48,12 +65,9 @@ def main():
         with torch.no_grad():
             logits, cache = model.run_with_cache(prompt)
 
-            # Per-layer attention and MLP outputs, not per-head: Gemma 2 normalizes each block's output
-            # after the heads are summed, so per-head contributions don't add up to the residual stream.
-            comps, labels = cache.get_full_resid_decomposition(
-                layer=-1, expand_neurons=False, apply_ln=True,
-                pos_slice=-1, return_labels=True)
-            dla = (comps @ direction).squeeze()
+            comps, labels = residual_contributions(cache, model.cfg.n_layers)
+            comps = comps / cache["ln_final.hook_scale"][0, -1]   # the final norm's scale at the last position
+            dla = comps @ direction
 
             # Sanity: the components plus the unembed bias should rebuild the logit difference.
             bias_term = model.b_U[approve_id] - model.b_U[review_id]
@@ -70,7 +84,7 @@ def main():
                       f"  final residual @ direction:   {(final @ direction + bias_term).item():.3f}\n"
                       f"  capped logit difference:      {(capped[approve_id] - capped[review_id]).item():.3f} "
                       f"(softcap {model.cfg.output_logits_soft_cap})\n"
-                      f"  max |components.sum - final|: {(comps.sum(0).squeeze() - final).abs().max().item():.4f}")
+                      f"  max |components.sum - final|: {(comps.sum(0) - final).abs().max().item():.4f}")
 
         for label, value in zip(labels, dla.float().cpu().numpy()):
             rows.append({
