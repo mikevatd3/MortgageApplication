@@ -8,4 +8,4 @@ For the following {n} clients we have sent out loan estimate documents but have 
 
 I only have time to call one of these clients today, so I picked the one I believe is most likely to close.
 
-Client I will call (first and last name):
+Client I will call (last name, first name):

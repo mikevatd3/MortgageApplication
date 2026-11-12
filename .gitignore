@@ -12,6 +12,7 @@ wheels/
 # Data Files
 *.csv
 *.npz
+*.parquet
 
 # Environment Files
 .env

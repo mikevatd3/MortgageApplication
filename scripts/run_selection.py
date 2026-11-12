@@ -14,8 +14,20 @@ MODEL = "google/gemma-2-9b"
 OUT_PATH = DATA_DIR / "selections__completion.csv"
 
 
+NAME_COLS = ["last_name", "first_name"]
+
+
+def last_name_first(frame: pd.DataFrame) -> pd.DataFrame:
+    """Reorder columns so last_name comes before first_name, wherever the name columns sit."""
+    cols = list(frame.columns)
+    at = cols.index("first_name")
+    cols = [c for c in cols if c not in NAME_COLS]
+    cols[at:at] = NAME_COLS
+    return frame[cols]
+
+
 def clean_selection(output: str) -> str:
-    """Normalize "FIRST,LAST", "FIRST, LAST" and repeated spaces to "FIRST LAST"."""
+    """Normalize "LAST,FIRST", "LAST, FIRST" and repeated spaces to "LAST FIRST"."""
     return " ".join(re.sub(r"\s*,\s*", " ", output.upper()).split())
 
 
@@ -23,8 +35,8 @@ def first_token_ids(tok, prompt: str, frame: pd.DataFrame) -> list[int]:
     """Id of the first token the model would emit to start each applicant's name, in row order."""
     prompt_ids = tok(prompt).input_ids
     ids = []
-    for first, last in zip(frame.first_name, frame.last_name):
-        name_ids = tok(f"{prompt} {first} {last}").input_ids
+    for last, first in zip(frame.last_name, frame.first_name):
+        name_ids = tok(f"{prompt} {last}, {first}").input_ids
         assert name_ids[:len(prompt_ids)] == prompt_ids, "name tokenization changed the prompt tokens"
         ids.append(name_ids[len(prompt_ids)])
     return ids
@@ -33,7 +45,7 @@ def first_token_ids(tok, prompt: str, frame: pd.DataFrame) -> list[int]:
 def validate_selection(output: str, frame: pd.DataFrame) -> tuple[int | None, str | None]:
     """Return (row position, None) if output names exactly one applicant in the table, else (None, reason)."""
     text = clean_selection(output)
-    full_names = (frame.first_name + " " + frame.last_name).map(clean_selection)
+    full_names = (frame.last_name + " " + frame.first_name).map(clean_selection)
 
     matches = full_names.index[full_names == text].tolist()
     if not matches:
@@ -54,7 +66,7 @@ def main():
 
     rows = []
     for _, file in tqdm.tqdm(manifest.iterrows(), total=len(manifest)):
-        frame = pd.read_csv(DATA_DIR / f"{file.fileid}.csv")
+        frame = last_name_first(pd.read_csv(DATA_DIR / f"{file.fileid}.csv"))
 
         prompt = prompt_template.format(table=frame.to_csv(index=False), n=len(frame))
 

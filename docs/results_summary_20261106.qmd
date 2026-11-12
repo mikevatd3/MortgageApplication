@@ -1,0 +1,113 @@
+# Several experiments on LLMs, places, names, and race
+
+## Model runs on names and places
+
+Last week's results included evidence that `gemma-2-9b` can partially recreate a
+measure similar to the name component of BISFG. This week, I'm looking if the
+location component.
+
+One caveat here is that BISFG would use tract or even block level data to come
+up with a very precise race proportion for a given address, and we're using city
+(Census place) because I'm not currently generating real addresses.
+
+Possibly, we can add neighborhood to the data generation, using Detroit as the
+first case. More work to be done here!
+
+### Token-length book-keeping
+
+- [ ] Create book-keeping code
+- [ ] Run on gemma-2-9b
+- [ ] Apply this to challenge table names
+
+This code runs all of the names and places that we'll use in our various
+challenges just through tokenization and counts the number of tokens. This
+helps:
+
+1. Best case, where we use single token for first, last, and place or
+2. The okay case, where we compare items that have the same number of tokens
+   regardless. Or
+3. At least measure the entire name and know how many tokens it comprises.
+
+Do this for gemma-2-9b, then maybe for others.
+
+### Does the model recreate population proportion?
+
+- [ ] Instead of taking the full output, take the residual from a few layers
+      back.
+
+This section uses the Census proportion and uses the same 'rotated hold out'
+approach as last week, but then added improvement to that model, avoid reporting
+memorization, and then see if there is some 'direction' that llms encode related
+to race.
+
+#### Avoiding reporting the linear model's 'memorization' of the dataset - LATER
+
+I had meant to spend some time working with the paper, "Designing and
+Interpreting Probes with Control Tasks," before. Since this is a linear probe
+essentially that I'm building to try and understand the model encoding of race,
+it was as good a time as any to try and develop this model against a control
+task.
+
+They talk about the goal to build *selective* probes. Selective probes achieve
+"high linguistic task accuracy and low control task accuracy." 
+
+They also refer to random representation baselines.
+
+This is a line to check out later: "as long as a representation is a lossless
+encoding, a sufficiently expressive probe with enough training data can learn
+*any* task on top of it."
+- TODO: Are the tokenization and vectorization schemes, even if they're only the
+  randomly initialized vectors, a lossless encoding? Maybe? The n dimension of
+  the vector though is << the vocabulary size typically. Does that matter? The
+  vector length of models if you treated them as bits could certainly hold the
+  vocab size. So maybe yeah.
+
+So far I've focused on simple linear probes, but they echo an argument for 
+'complex,' probes because the characteristics you're interested in my not be
+encoded linearly. They do show that MLPs tend to be less selective.
+
+They mention using @marcusmitchellp.Treebank31999 for their dependency edge
+prediction task.
+
+They also talk about using an LR decomposition to further constrain the linear 
+model -- this is interesting. How could this work in conjunction with PCA or
+something like that?
+
+Has selectivity been researched in semantic tasks? Maybe, maybe not -- the work
+has been cited at least.
+
+@hewittDesigningInterpretingProbes2019
+
+#### Comparing race direction of names and places
+
+- PCA?
+
+## The 'Approve - Review' task
+
+- [ ] Write the prompt
+- [ ] Run the challenge using white as a baseline
+- [ ] Run the challenge using ambiguous names as a baseline
+
+The problem with the full 'order candidates' mortgage application task is that
+it is a fairly complicated task, so applying interpretability techniques gets
+intractable fast. This task draws from a similar dataset as that task but
+instead looks at one candidate at a time, asking the model to approve or review.
+
+I did two versions of this experiment with different baselines, one using a
+signaled white candidates, and one using an intentionally ambiguous candidates
+under BISFG.
+
+In this task, I'm starting at the logits for the 'approve' and 'review,' tokens
+then looking at how the name and place contributes.
+
+### Different pair words
+
+## The 'prioritize one' task
+
+This is a revision of the task from last week, where it requested the model to
+output the first and last name, and I recorded the logit for the first token of
+the first name. Now I'm instead focusing on the first token of the last name.
+This again is much more difficult to apply interpretability techniques to, but
+it has the potential to observe different
+
+

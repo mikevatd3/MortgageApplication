@@ -76,6 +76,9 @@ manifest = pd.read_csv(CHALLENGE / "manifest.csv")
 example = manifest[manifest["batch"] == 0].set_index("race").loc[RACES]
 position = int(example["position"].iloc[0])
 white_table = pd.read_csv(CHALLENGE / f"{example.loc['whi', 'fileid']}.csv")
+# last name before first name, as in the selection prompt
+name_cols = ["last_name", "first_name"]
+white_table = white_table[name_cols + [c for c in white_table if c not in name_cols]]
 ```
 
 ### One batch, five versions
@@ -85,7 +88,7 @@ that one row change between versions.
 
 ```{python}
 #| label: tbl-example-versions
-example[["first_name", "last_name", "city"]].rename_axis("race version")
+example[["last_name", "first_name", "city"]].rename_axis("race version")
 ```
 
 ### The table
@@ -101,7 +104,7 @@ white_table
 ### Ranking prompt
 
 For the ranking tests the model gets the table with either the city columns
-(`city` and `state`) or the name columns (`first_name` and `last_name`), never
+(`city` and `state`) or the name columns (`last_name` and `first_name`), never
 both, and the table is written as CSV with a row index that the model uses as the
 applicant id. This is the city-only prompt for the same batch.
 
@@ -177,7 +180,7 @@ the test applicant, and the batch contains five versions of that table that
 differ only in the race signal given for that applicant:
 
 - **city only**: the table shows the applicant's city and state, with the name dropped. The city is drawn from the places with the highest share of the given race.
-- **name only**: the table shows first and last name, with the city dropped. The name is drawn from names most associated with the given race.
+- **name only**: the table shows last and first name, with the city dropped. The name is drawn from names most associated with the given race.
 
 The model returns a ranking of the five rows, most likely to close first. The
 test applicant's *rank* is where their row lands in that list (0 is best).

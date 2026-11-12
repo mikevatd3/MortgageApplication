@@ -16,6 +16,6 @@ INT_LIST = re.compile(r"\d+(,\d+)*")
 
 CONST_COLS = ["credit_score", "property_value", "loan_amount", "income", "debt_to_income"]
 CITY_ONLY_COLS = ["city", "state"] + CONST_COLS
-NAME_ONLY_COLS = ["first_name", "last_name"] + CONST_COLS
+NAME_ONLY_COLS = ["last_name", "first_name"] + CONST_COLS
 
 
