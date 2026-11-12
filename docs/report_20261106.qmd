@@ -1,4 +1,57 @@
-# Several experiments on LLMs, places, names, and race
+---
+title: "Several experiments on LLMs, places, names, and race"
+description: "Layer-20 embeddings of names and places, and the approve/review and prioritize-one challenges."
+format:
+  html:
+    toc: true
+    code-fold: true
+    embed-resources: true
+    css: style.css
+execute:
+  warning: false
+jupyter: python3
+---
+
+```{python}
+#| label: setup
+from pathlib import Path
+import json
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.io as pio
+import numpy as np
+
+pio.templates["everforest"] = go.layout.Template(layout=dict(
+    colorway=["#a7c080", "#e69875", "#7fbbb3", "#dbbc7f",
+              "#d699b6", "#83c092", "#e67e80"],
+    font=dict(family="Georgia, serif", color="#d3c6aa"),
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(0,0,0,0)",
+    xaxis=dict(gridcolor="#3d484d", zerolinecolor="#475258", linecolor="#d3c6aa"),
+    yaxis=dict(gridcolor="#3d484d", zerolinecolor="#475258", linecolor="#d3c6aa"),
+))
+pio.templates.default = "everforest"
+
+from IPython.display import HTML, display
+
+def show(fig):
+    display(HTML(fig.to_html(include_plotlyjs=False, full_html=False, default_height="450px", default_width="100%")))
+
+ROOT = Path.cwd().parent
+DATA = ROOT / "data"
+CHALLENGE = DATA / "challenge_tables_2026-10-23_full"
+
+RACES = ["whi", "bla", "his", "asi", "oth"]
+```
+
+```{python}
+#| label: plotly-js
+#| echo: false
+from plotly.offline import get_plotlyjs
+
+display(HTML(f"<script>{get_plotlyjs()}</script>"))
+```
 
 ## Model runs on names and places
 

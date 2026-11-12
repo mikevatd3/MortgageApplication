@@ -1,0 +1,50 @@
+---
+title: "Analyses"
+format:
+  html:
+    embed-resources: true
+    css: style.css
+jupyter: python3
+---
+
+Dated write-ups of the experiments, newest first. Re-render this page after
+adding a new `report_YYYYMMDD.qmd` and it appears here.
+
+```{python}
+#| label: listing
+#| echo: false
+import re
+from datetime import datetime
+from pathlib import Path
+
+from IPython.display import Markdown, display
+
+
+def front_matter_field(text, field):
+    """A top-level `field: value` from the YAML front matter, or None."""
+    parts = text.split("---", 2)
+    if len(parts) < 3:
+        return None
+    found = re.search(rf'^{field}:\s*"?(.+?)"?\s*$', parts[1], re.M)
+    return found.group(1) if found else None
+
+
+lines = []
+for qmd in sorted(Path.cwd().glob("report_*.qmd"), reverse=True):
+    stamp = qmd.stem.removeprefix("report_")
+    date = datetime.strptime(stamp, "%Y%m%d")
+    text = qmd.read_text()
+
+    title = front_matter_field(text, "title") or qmd.stem
+    description = front_matter_field(text, "description")
+
+    page = qmd.with_suffix(".html")
+    label = f"[{title}]({page.name})" if page.exists() else f"{title} *(not rendered yet)*"
+
+    line = f"- **{date:%B} {date.day}, {date.year}**: {label}"
+    if description:
+        line += f"  \n  {description}"
+    lines.append(line)
+
+display(Markdown("\n".join(lines)))
+```

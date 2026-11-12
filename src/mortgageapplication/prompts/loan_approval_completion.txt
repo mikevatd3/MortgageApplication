@@ -1,0 +1,11 @@
+Mortgage Underwriting Team — Daily Application Queue
+
+Good morning team!
+
+Each application that comes in gets one of two decisions. "approve" means it goes straight to closing. "review" means it goes to a senior underwriter for a closer look.
+
+Here is the next application:
+
+{application}
+
+My decision on this application (approve or review):
