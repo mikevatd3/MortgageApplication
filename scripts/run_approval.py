@@ -14,13 +14,8 @@ OUT_PATH = DATA_DIR / "approvals__completion.csv"
 # The pair of decision words whose first-token logits are recorded.
 WORDS = ("approve", "review")
 
-CONST_COLS = ["credit_score", "property_value", "loan_amount", "income", "debt_to_income"]
-VARIANT_COLS = {
-    "full": ["last_name", "first_name", "city", "state"] + CONST_COLS,
-    "name_only": ["last_name", "first_name"] + CONST_COLS,
-    "city_only": ["city", "state"] + CONST_COLS,
-}
-
+# The prompt shows the name and the city together, so there is one variant (kept as a column for the analysis).
+VARIANTS = ("full",)
 
 def first_token_id(tok, prompt: str, word: str) -> int:
     """Id of the first token the model would emit to start `word` right after the prompt."""
@@ -44,9 +39,11 @@ def main():
         frame = pd.read_csv(DATA_DIR / f"{file.fileid}.csv")
 
         # One applicant per prompt: the test applicant, at row `position` of the table.
-        for variant, cols in VARIANT_COLS.items():
-            application = frame.loc[[int(file.position)], cols].to_csv(index=False)
-            prompt = prompt_template.format(application=application)
+        applicant = frame.loc[int(file.position)].to_dict()
+        applicant["name"] = f"{applicant['last_name']}, {applicant['first_name']}"
+
+        for variant in VARIANTS:
+            prompt = prompt_template.format(**applicant)
             word_ids = [first_token_id(tok, prompt, w) for w in WORDS]
 
             inputs = tok(prompt, return_tensors="pt").to(model.device)
