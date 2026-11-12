@@ -11,7 +11,8 @@ from mortgageapplication import load_prompt_template
 load_dotenv()
 
 MODEL = "google/gemma-2-9b"
-HOOK = "ln_final.hook_normalized"
+# mid-depth of Gemma-2-9b's 42 layers, where semantic features tend to peak (and Gemma Scope has a residual SAE)
+HOOK = "blocks.20.hook_resid_post"
 DATA_DIR = Path(__file__).parent.parent / "data"
 NAMES_PATH = DATA_DIR / "uniform_names_2026-10-24.csv"
 OUT_PATH = DATA_DIR / "name_activations_gemma-2-9b.npz"
@@ -28,7 +29,7 @@ def main():
     prompts = [to_prompt(template, n) for n in frame.full_name]
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    model = HookedTransformer.from_pretrained(MODEL, device=device, dtype=torch.bfloat16)
+    model = HookedTransformer.from_pretrained(MODEL, device=device, dtype="bfloat16")
     model.eval()
 
     acts = []
@@ -37,7 +38,8 @@ def main():
             _, cache = model.run_with_cache(prompt, names_filter=HOOK)
             acts.append(cache[HOOK][0, -1].float().cpu().numpy())
 
-    np.savez(OUT_PATH, X=np.stack(acts), y=frame.bla_full.values)
+    # full_name rides along so predictions can be joined back to the names
+    np.savez(OUT_PATH, X=np.stack(acts), y=frame.bla_full.values, full_name=np.array(frame.full_name.tolist(), dtype=str))
 
 
 if __name__ == "__main__":

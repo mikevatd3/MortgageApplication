@@ -11,6 +11,7 @@ dependencies = [
     "jupyter>=1.1.1",
     "psycopg>=3.3.8",
     "pytest>=9.1.1",
+    "queueprompt",
     "sae-lens>=6.54.5",
     "sqlalchemy>=2.1.8",
     "tqdm>=4.70.1",
@@ -28,3 +29,6 @@ build-backend = "uv_build"
 dev = [
     "transformers>=5.20.1",
 ]
+
+[tool.uv.sources]
+queueprompt = { path = "../queueprompt", editable = true }

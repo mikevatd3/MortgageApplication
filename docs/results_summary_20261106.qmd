@@ -15,8 +15,8 @@ first case. More work to be done here!
 
 ### Token-length book-keeping
 
-- [ ] Create book-keeping code
-- [ ] Run on gemma-2-9b
+- [x] Create book-keeping code
+- [~] Run on gemma-2-9b
 - [ ] Apply this to challenge table names
 
 This code runs all of the names and places that we'll use in our various
@@ -29,6 +29,11 @@ helps:
 3. At least measure the entire name and know how many tokens it comprises.
 
 Do this for gemma-2-9b, then maybe for others.
+
+### Improving the race-sounding name model
+
+- [ ] Instead of taking the full output, take the residual from a few layers
+      back.
 
 ### Does the model recreate population proportion?
 

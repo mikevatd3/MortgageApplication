@@ -12,7 +12,7 @@ from queueprompt.cities import tidy_places
 from queueprompt.config import load_db
 
 MIN_POP = 150_000  # same pool the challenge tables draw cities from
-OUT_PATH = Path(__file__).parent.parent / "data" / "places_2026-10-29.csv"
+OUT_PATH = Path(__file__).parent.parent / "data" / "places_20261112.parquet"
 
 
 def main():
@@ -34,7 +34,7 @@ def main():
 
     frame = pd.read_sql(q, load_db(), params={"min_pop": MIN_POP})
     frame = tidy_places(frame)
-    frame.to_csv(OUT_PATH, index=False)
+    frame.to_parquet(OUT_PATH, index=False)
     print(f"{len(frame)} places -> {OUT_PATH}")
 
 
