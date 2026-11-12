@@ -1,6 +1,7 @@
 from pathlib import Path
 import pandas as pd
 import torch
+import tqdm
 from transformer_lens import HookedTransformer
 
 from mortgageapplication import load_prompt_template
@@ -8,7 +9,7 @@ from mortgageapplication import load_prompt_template
 
 MODEL = "gemma-2-9b"
 DATA_DIR = Path(__file__).parent.parent / "data"
-LISTINGS_PATH = DATA_DIR / "comparable_listings_2026-11-12.csv"
+LISTINGS_PATH = DATA_DIR / "comparable_listings_2026-11-12_2.csv"
 OUT_PATH = DATA_DIR / "approval_dla_gemma-2-9b.parquet"
 
 # Direct logit attribution is taken for the first token of the first word minus the first token of the second.
@@ -57,7 +58,7 @@ def main():
     model.eval()
 
     rows = []
-    for _, listing in listings.iterrows():
+    for _, listing in tqdm.tqdm(listings.iterrows(), total=len(listings)):
         prompt = template.format(**listing)
         approve_id, review_id = (first_token_id(model, prompt, w) for w in WORDS)
         direction = model.W_U[:, approve_id] - model.W_U[:, review_id]

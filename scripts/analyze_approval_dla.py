@@ -12,21 +12,39 @@ DLA_PATH = DATA_DIR / "approval_dla_gemma-2-9b.parquet"
 RACES = ["whi", "bla", "his", "asi", "oth"]
 
 
-def layer_table(rows):
-    """One row per layer, columns attn and mlp: how much each pushes approve over review."""
-    parts = rows["component"].str.extract(r"^(?P<layer>\d+)_(?P<kind>attn|mlp)_out$")
-    kept = rows.assign(layer=parts["layer"], kind=parts["kind"]).dropna(subset=["layer"])
-    kept = kept.assign(layer=kept["layer"].astype(int))
-    return kept.pivot(index="layer", columns="kind", values="dla").sort_index()
+def layer_rows(frame):
+    """The per-layer attention and MLP rows, with `layer` and `kind` columns (embed is dropped)."""
+    parts = frame["component"].str.extract(r"^(?P<layer>\d+)_(?P<kind>attn|mlp)_out$")
+    kept = frame.assign(layer=parts["layer"], kind=parts["kind"]).dropna(subset=["layer"])
+    return kept.assign(layer=kept["layer"].astype(int))
 
 
-def plot_layers(tables, title):
+def leaning(logit_diff):
+    """The decision the model leans toward, and how much of the approve/review pair's probability it gets."""
+    p_approve = 1 / (1 + np.exp(-logit_diff))
+    word, share = ("approve", p_approve) if logit_diff >= 0 else ("review", 1 - p_approve)
+    return f"{word} {share:.1%}"
+
+
+def paired_vs_white(wide):
+    """Per-race mean of (value - the same set's white value), with its standard error across sets."""
+    diff = wide.sub(wide["whi"], axis=0).dropna(subset=["whi"])
+    n = diff.count()
+    return pd.DataFrame({
+        "mean": wide.mean(),
+        "diff_vs_white": diff.mean(),
+        "se": diff.std() / np.sqrt(n),
+        "sets": n,
+    }).reindex([r for r in RACES if r in wide.columns])
+
+
+def plot_layers(tables, title, panel_titles):
     """Heatmaps of per-layer attention and MLP contributions, one panel per race, on a shared scale."""
     races = [r for r in RACES if r in tables]
     scale = max(np.abs(t.to_numpy()).max() for t in tables.values())
 
     fig = make_subplots(rows=1, cols=len(races), shared_yaxes=True,
-                        horizontal_spacing=0.02, subplot_titles=races)
+                        horizontal_spacing=0.02, subplot_titles=[panel_titles[r] for r in races])
     for col, race in enumerate(races, start=1):
         table = tables[race]
         fig.add_trace(go.Heatmap(
@@ -43,20 +61,41 @@ def plot_layers(tables, title):
 def main():
     frame = pd.read_parquet(DLA_PATH)
 
-    print("logit difference (approve - review) by race:")
-    print(frame.groupby("top")["logit_diff"].first().reindex(RACES).round(3))
+    # One logit difference per (set, race): positive = leans toward "approve".
+    decisions = frame.groupby(["set", "top"])["logit_diff"].first().unstack("top")
+    print(f"{len(decisions)} sets")
 
-    tables = {race: layer_table(rows) for race, rows in frame.groupby("top")}
+    summary = paired_vs_white(decisions)
+    summary["leans"] = summary["mean"].map(leaning)
+    summary["share_approve"] = (decisions > 0).mean().reindex(summary.index)
+    print("\nlogit difference (approve - review) by race, averaged over sets:")
+    print(summary.round(3))
 
-    # Where the races differ, relative to the white version of the same listing.
-    diffs = {race: tables[race] - tables["whi"] for race in tables if race != "whi"}
-    print("\nlargest layer contributions to the gap vs white:")
-    for race, diff in diffs.items():
-        top = diff.stack().sort_values(key=np.abs, ascending=False).head(3)
-        print(f"  {race}: " + ", ".join(f"L{layer} {kind} {value:+.2f}" for (layer, kind), value in top.items()))
+    # Per-layer contributions: each race against white within the same set, then averaged over sets.
+    layers = layer_rows(frame)
+    wide = layers.pivot_table(index=["set", "layer", "kind"], columns="top", values="dla")
+    diff = wide.sub(wide["whi"], axis=0)
+    cells = ["layer", "kind"]
 
-    plot_layers(tables, "Direct logit attribution: approve − review")
-    plot_layers(diffs, "Difference from the white version")
+    mean_dla = wide.groupby(level=cells).mean()
+    mean_diff = diff.groupby(level=cells).mean()
+    se_diff = diff.groupby(level=cells).sem()
+
+    print("\nlargest layer contributions to the gap vs white (mean ± se over sets):")
+    for race in [r for r in summary.index if r != "whi"]:
+        strongest = (mean_diff[race] / se_diff[race]).abs().sort_values(ascending=False).head(3).index
+        print(f"  {race}: " + ", ".join(
+            f"L{layer} {kind} {mean_diff.loc[(layer, kind), race]:+.2f} ± {se_diff.loc[(layer, kind), race]:.2f}"
+            for layer, kind in strongest))
+
+    own_titles = {r: f"{r}: {leaning(summary.loc[r, 'mean'])}" for r in summary.index}
+    diff_titles = {r: f"{r} vs whi: {summary.loc[r, 'diff_vs_white']:+.2f} ± {summary.loc[r, 'se']:.2f}"
+                   for r in summary.index if r != "whi"}
+
+    plot_layers({r: mean_dla[r].unstack("kind") for r in summary.index},
+                "Direct logit attribution: approve − review (mean over sets)", own_titles)
+    plot_layers({r: mean_diff[r].unstack("kind") for r in diff_titles},
+                "Difference from the white version (mean over sets)", diff_titles)
 
 
 if __name__ == "__main__":
