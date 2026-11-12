@@ -54,6 +54,7 @@ def plot_layers(tables, title, panel_titles):
             hovertemplate="layer %{y} %{x}: %{z:.3f}<extra></extra>"), 1, col)
 
     fig.update_yaxes(autorange="reversed", dtick=2, title_text="Layer", col=1)
+    fig.update_annotations(font_size=11)   # the panel titles
     fig.update_layout(title=title, width=1000, height=800)
     fig.show()
 
