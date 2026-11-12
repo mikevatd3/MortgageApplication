@@ -9,7 +9,7 @@ from mortgageapplication import load_prompt_template
 
 MODEL = "gemma-2-9b"
 DATA_DIR = Path(__file__).parent.parent / "data"
-LISTINGS_PATH = DATA_DIR / "comparable_listings_2026-11-12_2.csv"
+LISTINGS_PATH = DATA_DIR / "comparable_listings_2026-11-12_v3.csv"
 OUT_PATH = DATA_DIR / "approval_dla_gemma-2-9b.parquet"
 
 # Direct logit attribution is taken for the first token of the first word minus the first token of the second.
