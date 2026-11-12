@@ -88,7 +88,7 @@ def main():
                       f"  max |components.sum - final|: {(comps.sum(0) - final).abs().max().item():.4f}")
 
         for label, value in zip(labels, dla.float().cpu().numpy()):
-            rows.append({
+            rows.append({ 
                 "set": listing["set"],
                 "top": listing["top"],
                 "name": listing["name"],

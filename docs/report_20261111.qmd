@@ -67,14 +67,151 @@ This is the prompt:
 > 
 > My decision on this application (approve or review):
 
-
 ### The data
 
-Similar to the data generation process used in the other tasks so far, this uses
-the BISFG-like calculation to simulate applicants who indirectly suggest a 
-racial identity to the model. The `queueprompt` tool tries to generate
-candidates that are as suggestive as possible of a particular race, and holds
-the other parts of the application constant (save for the city - home value).
+To generate the applications, like the data generation process used in the other
+experiments so far, this uses the BISFG-like calculation to simulate applicants
+who indirectly suggest a racial identity to the model. The `queueprompt` tool
+tries to generate candidates that are as suggestive as possible of a particular
+race, and holds the other parts of the application constant (save for the city -
+home value, which it holds to the city-market percentile). The candidates are
+generated in 'sets' where a generated candidate from each racial group is
+included.
+
+## Experiment and Analysis
+
+For each applicant, the model reads the prompt and we look at its next-token
+choice between " approve" and " review". Direct logit attribution then splits
+that choice, the logit for "approve" minus the logit for "review", into the
+amount each part of the network wrote toward it.
+
+- Each cell in the heatmaps is one layer's attention or MLP output at the last
+  prompt token. Blue pushes the model toward "approve", red toward "review".
+- The pieces add up to the model's actual logit difference, so a layer's value
+  is how much of the decision that layer wrote directly. It isn't a causal
+  claim: later layers read what earlier layers wrote.
+- The embedding term is left out of the heatmaps because it isn't a layer. It
+  is large and nearly the same for every race.
+- The first chart is the raw contribution per race, averaged over sets. The
+  second subtracts the white version of the same set first, so only what
+  changes with the name and city is left. Panel titles give the average gap
+  from white in logits, with its standard error across sets.
+
+```{python}
+#| label: dla-setup
+
+from plotly.subplots import make_subplots
+
+DATA = Path.cwd().parent / "data"
+RACES = ["whi", "bla", "his", "asi", "oth"]
 
 
+def layer_rows(frame):
+    """The per-layer attention and MLP rows, with `layer` and `kind` columns (embed is dropped)."""
+    parts = frame["component"].str.extract(r"^(?P<layer>\d+)_(?P<kind>attn|mlp)_out$")
+    kept = frame.assign(layer=parts["layer"], kind=parts["kind"]).dropna(subset=["layer"])
+    return kept.assign(layer=kept["layer"].astype(int))
+
+
+def leaning(logit_diff):
+    """The decision the model leans toward, and its share of the approve/review pair's probability."""
+    p_approve = 1 / (1 + np.exp(-logit_diff))
+    word, share = ("approve", p_approve) if logit_diff >= 0 else ("review", 1 - p_approve)
+    return f"{word} {share:.1%}"
+
+
+def paired_vs_white(wide):
+    """Per-race mean of (value - the same set's white value), with its standard error across sets."""
+    diff = wide.sub(wide["whi"], axis=0).dropna(subset=["whi"])
+    n = diff.count()
+    return pd.DataFrame({
+        "mean": wide.mean(),
+        "diff_vs_white": diff.mean(),
+        "se": diff.std() / np.sqrt(n),
+        "sets": n,
+    }).reindex([r for r in RACES if r in wide.columns])
+
+
+def layer_heatmaps(tables, title, panel_titles):
+    """Per-layer attention and MLP contributions, one panel per race, on a shared color scale."""
+    races = [r for r in RACES if r in tables]
+    scale = max(np.abs(t.to_numpy()).max() for t in tables.values())
+
+    fig = make_subplots(rows=1, cols=len(races), shared_yaxes=True,
+                        horizontal_spacing=0.02, subplot_titles=[panel_titles[r] for r in races])
+    for col, race in enumerate(races, start=1):
+        table = tables[race]
+        fig.add_trace(go.Heatmap(
+            z=table.to_numpy(), x=["attn", "mlp"], y=table.index,
+            colorscale="RdBu", zmid=0, zmin=-scale, zmax=scale,
+            showscale=col == len(races), colorbar={"title": "Δ logit"},
+            hovertemplate="layer %{y} %{x}: %{z:.3f}<extra></extra>"), 1, col)
+
+    fig.update_yaxes(autorange="reversed", dtick=2, title_text="Layer", col=1)
+    fig.update_layout(title=title, height=750)
+    return fig
+
+
+frame = pd.read_parquet(DATA / "approval_dla_gemma-2-9b.parquet")
+
+# One logit difference per (set, race): positive = leans toward "approve".
+decisions = frame.groupby(["set", "top"])["logit_diff"].first().unstack("top")
+
+summary = paired_vs_white(decisions)
+summary["leans"] = summary["mean"].map(leaning)
+summary["share_approve"] = (decisions > 0).mean().reindex(summary.index)
+
+# Per-layer contributions: each race against white within the same set, then averaged over sets.
+wide = layer_rows(frame).pivot_table(index=["set", "layer", "kind"], columns="top", values="dla")
+diff = wide.sub(wide["whi"], axis=0)
+cells = ["layer", "kind"]
+mean_dla = wide.groupby(level=cells).mean()
+mean_diff = diff.groupby(level=cells).mean()
+se_diff = diff.groupby(level=cells).sem()
+```
+
+### Which way the model leans
+
+Logit difference (approve − review) by race, averaged over `{python} len(decisions)` sets.
+`share_approve` is the fraction of sets where that race's version leans toward approve.
+
+```{python}
+#| label: dla-summary
+summary.round(3)
+```
+
+### Where the contribution comes from
+
+```{python}
+#| label: dla-raw
+own_titles = {r: f"{r}: {leaning(summary.loc[r, 'mean'])}" for r in summary.index}
+show(layer_heatmaps({r: mean_dla[r].unstack("kind") for r in summary.index},
+                    "Direct logit attribution: approve − review (mean over sets)", own_titles))
+```
+
+### What changes with the name and city
+
+```{python}
+#| label: dla-diff
+diff_titles = {r: f"{r} vs whi: {summary.loc[r, 'diff_vs_white']:+.2f} ± {summary.loc[r, 'se']:.2f}"
+               for r in summary.index if r != "whi"}
+show(layer_heatmaps({r: mean_diff[r].unstack("kind") for r in diff_titles},
+                    "Difference from the white version (mean over sets)", diff_titles))
+```
+
+The layers with the strongest signal, ranked by mean over standard error across
+sets. With many components and a few races, some will look strong by chance, so
+treat this as a shortlist.
+
+```{python}
+#| label: dla-top
+rows = []
+for race in diff_titles:
+    strongest = (mean_diff[race] / se_diff[race]).abs().sort_values(ascending=False).head(3).index
+    for layer, kind in strongest:
+        rows.append({"race": race, "layer": layer, "kind": kind,
+                     "mean": mean_diff.loc[(layer, kind), race],
+                     "se": se_diff.loc[(layer, kind), race]})
+pd.DataFrame(rows).round(3)
+```
 
