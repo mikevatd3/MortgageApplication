@@ -7,8 +7,8 @@ format:
 jupyter: python3
 ---
 
-Dated write-ups of the experiments, newest first. Re-render this page after
-adding a new `report_YYYYMMDD.qmd` and it appears here.
+Write-ups of experiments on the Mortgage Application case attempting to detect
+and causally explain racial bias in LLMs.
 
 ```{python}
 #| label: listing
