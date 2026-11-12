@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import pandas as pd
 import tqdm
 
-from mortgageapplication import load_prompt_template
+from mortgageapplication import fill_application_prompt, load_prompt_template
 
 CHALLENGE = "challenge_tables_2026-10-23_full"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
@@ -43,7 +43,7 @@ def main():
         applicant["name"] = f"{applicant['last_name']}, {applicant['first_name']}"
 
         for variant in VARIANTS:
-            prompt = prompt_template.format(**applicant)
+            prompt = fill_application_prompt(prompt_template, applicant)
             word_ids = [first_token_id(tok, prompt, w) for w in WORDS]
 
             inputs = tok(prompt, return_tensors="pt").to(model.device)

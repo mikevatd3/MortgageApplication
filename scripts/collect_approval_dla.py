@@ -4,7 +4,7 @@ import torch
 import tqdm
 from transformer_lens import HookedTransformer
 
-from mortgageapplication import load_prompt_template
+from mortgageapplication import fill_application_prompt, load_prompt_template
 
 
 MODEL = "gemma-2-9b"
@@ -59,7 +59,7 @@ def main():
 
     rows = []
     for _, listing in tqdm.tqdm(listings.iterrows(), total=len(listings)):
-        prompt = template.format(**listing)
+        prompt = fill_application_prompt(template, listing)
         approve_id, review_id = (first_token_id(model, prompt, w) for w in WORDS)
         direction = model.W_U[:, approve_id] - model.W_U[:, review_id]
 
