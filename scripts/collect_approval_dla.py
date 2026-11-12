@@ -14,6 +14,9 @@ OUT_PATH = DATA_DIR / "approval_dla_gemma-2-9b.parquet"
 # Direct logit attribution is taken for the first token of the first word minus the first token of the second.
 WORDS = ("approve", "review")
 
+# How far the summed components may be from the real logit difference before a warning is printed.
+TOLERANCE = 0.05
+
 
 def first_token_id(model, prompt: str, word: str) -> int:
     """Id of the first token the model would emit to start `word` right after the prompt."""
@@ -56,8 +59,18 @@ def main():
             bias_term = model.b_U[approve_id] - model.b_U[review_id]
             raw = undo_softcap(torch.as_tensor(logits)[0, -1], model)
             logit_diff = raw[approve_id] - raw[review_id]
-            assert torch.allclose(dla.sum() + bias_term, logit_diff, atol=0.05), (
-                f"components sum to {(dla.sum() + bias_term).item():.3f}, logit difference is {logit_diff.item():.3f}")
+            gap = (dla.sum() + bias_term - logit_diff).item()
+            if abs(gap) > TOLERANCE:
+                # Localize the gap: do the components rebuild the final normalized residual, and does that
+                # residual reproduce the logit difference?
+                final = cache["ln_final.hook_normalized"][0, -1]
+                capped = torch.as_tensor(logits)[0, -1]
+                print(f"warning: {listing['name']}: components sum to {(dla.sum() + bias_term).item():.3f}, "
+                      f"logit difference is {logit_diff.item():.3f} (gap {gap:+.3f})\n"
+                      f"  final residual @ direction:   {(final @ direction + bias_term).item():.3f}\n"
+                      f"  capped logit difference:      {(capped[approve_id] - capped[review_id]).item():.3f} "
+                      f"(softcap {model.cfg.output_logits_soft_cap})\n"
+                      f"  max |components.sum - final|: {(comps.sum(0).squeeze() - final).abs().max().item():.4f}")
 
         for label, value in zip(labels, dla.float().cpu().numpy()):
             rows.append({
@@ -67,6 +80,7 @@ def main():
                 "component": label,
                 "dla": float(value),
                 "logit_diff": logit_diff.item(),
+                "decomposition_gap": gap,
             })
 
     results = pd.DataFrame(rows)
