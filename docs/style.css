@@ -85,3 +85,14 @@ table td, table th { border-color: var(--rule); }
 }
 nav[role=doc-toc] ul, #TOC ul { border-left-color: var(--rule) !important; }
 figcaption, .figure-caption { color: var(--muted); }
+
+/* Quoted prompts: a lighter panel with an accent bar so they stand apart from the page background. */
+blockquote {
+  background: var(--bg2) !important;
+  color: var(--ink) !important;
+  border-left: 4px solid var(--accent) !important;
+  border-radius: 0 6px 6px 0;
+  padding: 0.75rem 1.25rem;
+  margin: 1.25rem 0;
+}
+blockquote p:last-child { margin-bottom: 0; }

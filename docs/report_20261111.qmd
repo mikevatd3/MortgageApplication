@@ -41,6 +41,14 @@ def show(fig):
     display(HTML(fig.to_html(include_plotlyjs=False, full_html=False, default_height="450px", default_width="100%")))
 ```
 
+```{python}
+#| label: plotly-js
+#| echo: false
+from plotly.offline import get_plotlyjs
+
+display(HTML(f"<script>{get_plotlyjs()}</script>"))
+```
+
 ## The task
 
 In this version I'm stepping back from the sorting task, because trying to apply
