@@ -96,3 +96,6 @@ blockquote {
   margin: 1.25rem 0;
 }
 blockquote p:last-child { margin-bottom: 0; }
+
+/* "All analyses" link at the top of each report. */
+.back-link { margin: 0 0 1rem; font-size: 0.9rem; }
