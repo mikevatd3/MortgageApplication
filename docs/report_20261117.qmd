@@ -1,0 +1,61 @@
+---
+title: "Name challenge continued, logit attribution AND SAEs"
+description: "Using direct logit attribution to identify components that contribute to selection"
+format:
+  html:
+    toc: true
+    code-fold: true
+    embed-resources: true
+    css: style.css
+    include-before-body: _back_to_index.html
+execute:
+  warning: false
+jupyter: python3
+---
+
+```{python}
+#| label: setup
+#| echo: false
+
+from pathlib import Path
+import json
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.io as pio
+import numpy as np
+
+pio.templates["everforest"] = go.layout.Template(layout=dict(
+    colorway=["#a7c080", "#e69875", "#7fbbb3", "#dbbc7f",
+              "#d699b6", "#83c092", "#e67e80"],
+    font=dict(family="Georgia, serif", color="#d3c6aa"),
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(0,0,0,0)",
+    xaxis=dict(gridcolor="#3d484d", zerolinecolor="#475258", linecolor="#d3c6aa"),
+    yaxis=dict(gridcolor="#3d484d", zerolinecolor="#475258", linecolor="#d3c6aa"),
+))
+pio.templates.default = "everforest"
+
+from IPython.display import HTML, display
+
+def show(fig):
+    display(HTML(fig.to_html(include_plotlyjs=False, full_html=False, default_height="450px", default_width="100%")))
+```
+
+
+```{python}
+#| label: plotly-js
+#| echo: false
+from plotly.offline import get_plotlyjs
+
+display(HTML(f"<script>{get_plotlyjs()}</script>"))
+```
+
+## The tasks
+
+### Do-over from last week
+
+I'm re-trying the approve-review task from last week, but applying title case to
+the names because after inspecting the `gemma-2-9b` vocabulary, all caps doesn't
+tokenize very efficiently.
+

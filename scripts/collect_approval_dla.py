@@ -10,7 +10,7 @@ from mortgageapplication import fill_application_prompt, load_prompt_template
 MODEL = "gemma-2-9b"
 DATA_DIR = Path(__file__).parent.parent / "data"
 LISTINGS_PATH = DATA_DIR / "comparable_listings_2026-11-12_v3.csv"
-OUT_PATH = DATA_DIR / "approval_dla_gemma-2-9b.parquet"
+OUT_PATH = DATA_DIR / "approval_dla_gemma-2-9b_v2.parquet"
 
 # Direct logit attribution is taken for the first token of the first word minus the first token of the second.
 WORDS = ("approve", "review")
@@ -52,6 +52,7 @@ def residual_contributions(cache, n_layers):
 
 def main():
     listings = pd.read_csv(LISTINGS_PATH)
+    listings["name"] = listings["name"].str.title() # Change for v2
     template = load_prompt_template("loan_approval_completion.txt")
 
     model = HookedTransformer.from_pretrained(MODEL)
