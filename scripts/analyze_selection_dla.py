@@ -5,7 +5,7 @@ from mortgageapplication.dla_analysis import layer_rows, paired_vs_white, plot_l
 from mortgageapplication.outputs import latest_output
 
 
-CHALLENGE = "challenge_tables_2026-10-23_full"
+CHALLENGE = "challenge_tables_2026-11-20"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 DLA_STEM = "selection_dla_gemma-2-9b"
 

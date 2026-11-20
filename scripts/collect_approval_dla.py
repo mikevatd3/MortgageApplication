@@ -11,7 +11,7 @@ from mortgageapplication.outputs import output_path, write_run_info
 
 MODEL = "gemma-2-9b"
 DATA_DIR = Path(__file__).parent.parent / "data"
-LISTINGS_PATH = DATA_DIR / "comparable_listings_2026-11-12_v3.csv"
+LISTINGS_PATH = DATA_DIR / "boundary_listings_2026-11-20.csv"
 OUT_STEM = "approval_dla_gemma-2-9b"
 
 # Direct logit attribution is taken for the first token of the first word minus the first token of the second.
@@ -64,6 +64,7 @@ def main():
                 "set": listing["set"],
                 "top": listing["top"],
                 "name": listing["name"],
+                "p_denial": listing["p_denial"],   # how close to the decision boundary the applicant is
                 "component": label,
                 "dla": float(value),
                 "logit_diff": logit_diff.item(),

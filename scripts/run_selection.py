@@ -10,7 +10,7 @@ from mortgageapplication import continuation_joiner, load_prompt_template
 from mortgageapplication.applicants import last_name_first, title_case_names
 from mortgageapplication.outputs import output_path, write_run_info
 
-CHALLENGE = "challenge_tables_2026-10-23_full"
+CHALLENGE = "challenge_tables_2026-11-20"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 MODEL = "google/gemma-2-9b"
 OUT_STEM = "selections__completion"

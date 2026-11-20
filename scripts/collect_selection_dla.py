@@ -9,7 +9,7 @@ from mortgageapplication.applicants import last_name_first, title_case_names
 from mortgageapplication.dla import first_token_id, token_dla
 from mortgageapplication.outputs import output_path, write_run_info
 
-CHALLENGE = "challenge_tables_2026-10-23_full"
+CHALLENGE = "challenge_tables_2026-11-20"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 MODEL = "gemma-2-9b"
 PROMPT = "loan_selection_criteria_completion.txt"

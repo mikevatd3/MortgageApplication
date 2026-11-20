@@ -4,7 +4,7 @@ import pandas as pd
 from mortgageapplication.outputs import latest_output
 
 
-CHALLENGE = "challenge_tables_2026-10-23_full"
+CHALLENGE = "challenge_tables_2026-11-20"
 RESULT_STEM = "rankings__completion"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 
