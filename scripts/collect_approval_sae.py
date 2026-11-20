@@ -81,7 +81,7 @@ def main():
         approve_id, review_id = (first_token_id(model, prompt, w) for w in WORDS)
 
         tokens = model.to_tokens(prompt)[0]
-        str_tokens = model.to_str_tokens(prompt)
+        str_tokens = model.tokenizer.convert_ids_to_tokens(tokens.tolist())
         positions = {
             "name": span_positions(model.tokenizer, tokens.tolist(), prompt, "NAME: ", listing["name"]),
             "city": span_positions(model.tokenizer, tokens.tolist(), prompt, "CITY: ", listing["city"]),
