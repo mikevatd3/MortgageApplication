@@ -13,6 +13,11 @@ wheels/
 *.csv
 *.npz
 *.parquet
+*.json
 
 # Environment Files
 .env
+
+# Neuronpedia
+
+neuronpedia_cache/
