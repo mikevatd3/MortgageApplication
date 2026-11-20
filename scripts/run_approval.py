@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import pandas as pd
 import tqdm
 
-from mortgageapplication import fill_application_prompt, load_prompt_template
+from mortgageapplication import continuation_joiner, fill_application_prompt, load_prompt_template
 from mortgageapplication.outputs import output_path, write_run_info
 
 CHALLENGE = "challenge_tables_2026-10-23_full"
@@ -21,7 +21,7 @@ VARIANTS = ("full",)
 def first_token_id(tok, prompt: str, word: str) -> int:
     """Id of the first token the model would emit to start `word` right after the prompt."""
     prompt_ids = tok(prompt).input_ids
-    word_ids = tok(f"{prompt} {word}").input_ids
+    word_ids = tok(f"{prompt}{continuation_joiner(prompt)}{word}").input_ids
     assert word_ids[:len(prompt_ids)] == prompt_ids, "appending the word changed the prompt tokens"
     return word_ids[len(prompt_ids)]
 

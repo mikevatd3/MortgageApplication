@@ -6,25 +6,14 @@ import pandas as pd
 import re
 import tqdm
 
-from mortgageapplication import load_prompt_template
+from mortgageapplication import continuation_joiner, load_prompt_template
+from mortgageapplication.applicants import last_name_first, title_case_names
 from mortgageapplication.outputs import output_path, write_run_info
 
 CHALLENGE = "challenge_tables_2026-10-23_full"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 MODEL = "google/gemma-2-9b"
 OUT_STEM = "selections__completion"
-
-
-NAME_COLS = ["last_name", "first_name"]
-
-
-def last_name_first(frame: pd.DataFrame) -> pd.DataFrame:
-    """Reorder columns so last_name comes before first_name, wherever the name columns sit."""
-    cols = list(frame.columns)
-    at = cols.index("first_name")
-    cols = [c for c in cols if c not in NAME_COLS]
-    cols[at:at] = NAME_COLS
-    return frame[cols]
 
 
 def clean_selection(output: str) -> str:
@@ -37,7 +26,7 @@ def first_token_ids(tok, prompt: str, frame: pd.DataFrame) -> list[int]:
     prompt_ids = tok(prompt).input_ids
     ids = []
     for last, first in zip(frame.last_name, frame.first_name):
-        name_ids = tok(f"{prompt} {last}, {first}").input_ids
+        name_ids = tok(f"{prompt}{continuation_joiner(prompt)}{last}, {first}").input_ids
         assert name_ids[:len(prompt_ids)] == prompt_ids, "name tokenization changed the prompt tokens"
         ids.append(name_ids[len(prompt_ids)])
     return ids
@@ -67,7 +56,7 @@ def main():
 
     rows = []
     for _, file in tqdm.tqdm(manifest.iterrows(), total=len(manifest)):
-        frame = last_name_first(pd.read_csv(DATA_DIR / f"{file.fileid}.csv"))
+        frame = last_name_first(title_case_names(pd.read_csv(DATA_DIR / f"{file.fileid}.csv")))
 
         prompt = prompt_template.format(table=frame.to_csv(index=False), n=len(frame))
 

@@ -5,6 +5,15 @@ def load_prompt_template(name: str) -> str:
     return files("mortgageapplication").joinpath("prompts", name).read_text()
 
 
+def continuation_joiner(prompt: str) -> str:
+    """What goes between a prompt and the text the model would write next.
+
+    A prompt ending in a newline means the text starts a new line, so no space: "approve", not " approve".
+    The two are different tokens, and only the first is what the model emits there.
+    """
+    return "" if prompt[-1:].isspace() else " "
+
+
 
 WHOLE_NUMBER_FIELDS = ("credit_score", "property_value", "loan_amount", "income")
 

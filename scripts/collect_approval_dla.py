@@ -5,6 +5,7 @@ import tqdm
 from transformer_lens import HookedTransformer
 
 from mortgageapplication import fill_application_prompt, load_prompt_template
+from mortgageapplication.dla import first_token_id, residual_contributions, undo_softcap
 from mortgageapplication.outputs import output_path, write_run_info
 
 
@@ -18,37 +19,6 @@ WORDS = ("approve", "review")
 
 # How far the summed components may be from the real logit difference before a warning is printed.
 TOLERANCE = 0.05
-
-
-def first_token_id(model, prompt: str, word: str) -> int:
-    """Id of the first token the model would emit to start `word` right after the prompt."""
-    prompt_ids = model.to_tokens(prompt)[0]
-    word_ids = model.to_tokens(f"{prompt} {word}")[0]
-    assert torch.equal(word_ids[:len(prompt_ids)], prompt_ids), "appending the word changed the prompt tokens"
-    return word_ids[len(prompt_ids)].item()
-
-
-def undo_softcap(logits, model):
-    """Gemma 2 squashes its final logits with tanh; the residual stream decomposes the values before that."""
-    cap = model.cfg.output_logits_soft_cap
-    return torch.atanh(logits / cap) * cap if cap > 0 else logits
-
-
-def residual_contributions(cache, n_layers):
-    """What the embedding, then each layer's attention and MLP, actually added to the last position's stream.
-
-    Differences of the residual stream at each stage, rather than the block output hooks: Gemma 2 applies
-    extra norms and scaling around the blocks, so the hooked outputs don't add up to the stream, but
-    these differences do by construction.
-    """
-    labels = ["embed"]
-    parts = [cache["blocks.0.hook_resid_pre"][0, -1]]
-    for layer in range(n_layers):
-        pre, mid, post = (cache[f"blocks.{layer}.{hook}"][0, -1]
-                          for hook in ("hook_resid_pre", "hook_resid_mid", "hook_resid_post"))
-        labels += [f"{layer}_attn_out", f"{layer}_mlp_out"]
-        parts += [mid - pre, post - mid]
-    return torch.stack(parts), labels
 
 
 def main():
