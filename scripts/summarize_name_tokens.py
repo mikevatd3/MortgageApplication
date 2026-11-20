@@ -42,7 +42,8 @@ def check_float16_parquet():
 
 
 def summarize_file(path, model):
-    names = pd.read_parquet(path)["name"].tolist()
+    # Title case before tokenizing ("MCNIER" -> "Mcnier"), the way names appear in the prompts.
+    names = pd.read_parquet(path)["name"].str.title().tolist()
 
     chunks = []
     for i in tqdm(range(0, len(names), CHUNK), desc=path.stem):
@@ -61,7 +62,7 @@ def main():
 
     for kind, path in NAME_FILES.items():
         table = summarize_file(path, model)
-        out_path = DATA_DIR / f"{kind}_name_token_summaries.parquet"
+        out_path = DATA_DIR / f"{kind}_name_title_case_token_summaries.parquet"
         table.to_parquet(out_path)
         print(f"{len(table)} {kind} names -> {out_path}")
 
