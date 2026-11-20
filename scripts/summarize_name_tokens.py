@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 from transformer_lens import HookedTransformer
 
+from mortgageapplication.outputs import output_path, write_run_info
 from mortgageapplication.token_table import summarize_strings
 
 load_dotenv()
@@ -62,8 +63,9 @@ def main():
 
     for kind, path in NAME_FILES.items():
         table = summarize_file(path, model)
-        out_path = DATA_DIR / f"{kind}_name_title_case_token_summaries.parquet"
+        out_path = output_path(DATA_DIR, f"{kind}_name_title_case_token_summaries", ".parquet")
         table.to_parquet(out_path)
+        write_run_info(out_path, script=Path(__file__).name, model=MODEL, hook=HOOK, source=path.name)
         print(f"{len(table)} {kind} names -> {out_path}")
 
 

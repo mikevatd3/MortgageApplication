@@ -6,6 +6,7 @@ import torch
 from dotenv import load_dotenv
 from transformer_lens import HookedTransformer
 
+from mortgageapplication.outputs import output_path, write_run_info
 from mortgageapplication.token_table import summarize_strings
 
 load_dotenv()
@@ -15,7 +16,7 @@ MODEL = "google/gemma-2-9b"
 HOOK = "blocks.20.hook_resid_post"
 DATA_DIR = Path(__file__).parent.parent / "data"
 PLACES_PATH = DATA_DIR / "places_20261112.parquet"
-OUT_PATH = DATA_DIR / "place_city_token_summaries.parquet"
+OUT_STEM = "place_city_token_summaries"
 
 FLOAT16_MAX = float(np.finfo(np.float16).max)
 
@@ -50,8 +51,10 @@ def main():
     # rows come back in input order; geoid keeps same-named cities apart and joins to the race shares
     table.insert(0, "geoid", places["geoid"].tolist())
 
-    table.to_parquet(OUT_PATH)
-    print(f"{len(table)} places -> {OUT_PATH}")
+    out_path = output_path(DATA_DIR, OUT_STEM, ".parquet")
+    table.to_parquet(out_path)
+    write_run_info(out_path, script=Path(__file__).name, model=MODEL, hook=HOOK)
+    print(f"{len(table)} places -> {out_path}")
 
 
 if __name__ == "__main__":

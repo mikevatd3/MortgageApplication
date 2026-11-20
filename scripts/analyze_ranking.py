@@ -1,14 +1,16 @@
 from pathlib import Path
 import pandas as pd
 
+from mortgageapplication.outputs import latest_output
+
 
 CHALLENGE = "challenge_tables_2026-10-23_full"
-RESULT_NAME = "rankings__completion.csv"
+RESULT_STEM = "rankings__completion"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 
 
 def main():
-    frame = pd.read_csv(DATA_DIR / RESULT_NAME)
+    frame = pd.read_csv(latest_output(DATA_DIR, RESULT_STEM, ".csv"))
     frame = frame[frame["valid"]].copy()
 
     # ranked_rows lists original row positions, best first; the target's rank is where its row appears.

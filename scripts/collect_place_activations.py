@@ -7,6 +7,7 @@ from tqdm import tqdm
 from transformer_lens import HookedTransformer
 
 from mortgageapplication import load_prompt_template
+from mortgageapplication.outputs import output_path, write_run_info
 
 load_dotenv()
 
@@ -15,7 +16,7 @@ MODEL = "google/gemma-2-9b"
 HOOK = "blocks.20.hook_resid_post"
 DATA_DIR = Path(__file__).parent.parent / "data"
 PLACES_PATH = DATA_DIR / "places_20261112.parquet"
-OUT_PATH = DATA_DIR / "place_activations_gemma-2-9b.npz"
+OUT_STEM = "place_activations_gemma-2-9b"
 
 
 def to_prompt(template, city, state):
@@ -38,7 +39,10 @@ def main():
             acts.append(cache[HOOK][0, -1].float().cpu().numpy())
 
     # geoid rides along so predictions can be joined back to the places
-    np.savez(OUT_PATH, X=np.stack(acts), y=frame.bla.values, geoid=np.array(frame.geoid.tolist(), dtype=str))
+    out_path = output_path(DATA_DIR, OUT_STEM, ".npz")
+    np.savez(out_path, X=np.stack(acts), y=frame.bla.values, geoid=np.array(frame.geoid.tolist(), dtype=str))
+    write_run_info(out_path, script=Path(__file__).name, prompts=["simple_place.txt"], model=MODEL, hook=HOOK)
+    print(f"{len(acts)} places -> {out_path}")
 
 
 if __name__ == "__main__":

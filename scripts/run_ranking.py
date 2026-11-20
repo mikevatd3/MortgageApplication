@@ -7,12 +7,13 @@ import re
 import tqdm
 
 from mortgageapplication import load_prompt_template
+from mortgageapplication.outputs import output_path, write_run_info
 
 CHALLENGE = "challenge_tables_2026-10-23_full"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 MODEL = "google/gemma-2-9b"
 SEED = 0
-OUT_PATH = DATA_DIR / "rankings__completion.csv"
+OUT_STEM = "rankings__completion"
 
 INT_LIST = re.compile(r"\d+(,\d+)*")
 
@@ -79,8 +80,10 @@ def main():
         })
 
     results = pd.DataFrame(rows)
-    results.to_csv(OUT_PATH, index=False)
-    print(f"{results.valid.sum()}/{len(results)} valid -> {OUT_PATH}")
+    out_path = output_path(DATA_DIR, OUT_STEM, ".csv")
+    results.to_csv(out_path, index=False)
+    write_run_info(out_path, script=Path(__file__).name, prompts=["loan_prioritization_completion.txt"], model=MODEL)
+    print(f"{results.valid.sum()}/{len(results)} valid -> {out_path}")
 
 
 if __name__ == "__main__":

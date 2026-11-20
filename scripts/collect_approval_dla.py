@@ -5,12 +5,13 @@ import tqdm
 from transformer_lens import HookedTransformer
 
 from mortgageapplication import fill_application_prompt, load_prompt_template
+from mortgageapplication.outputs import output_path, write_run_info
 
 
 MODEL = "gemma-2-9b"
 DATA_DIR = Path(__file__).parent.parent / "data"
 LISTINGS_PATH = DATA_DIR / "comparable_listings_2026-11-12_v3.csv"
-OUT_PATH = DATA_DIR / "approval_dla_gemma-2-9b_v2.parquet"
+OUT_STEM = "approval_dla_gemma-2-9b"
 
 # Direct logit attribution is taken for the first token of the first word minus the first token of the second.
 WORDS = ("approve", "review")
@@ -100,8 +101,11 @@ def main():
             })
 
     results = pd.DataFrame(rows)
-    results.to_parquet(OUT_PATH)
-    print(f"{len(results)} rows -> {OUT_PATH}")
+    out_path = output_path(DATA_DIR, OUT_STEM, ".parquet")
+    results.to_parquet(out_path)
+    write_run_info(out_path, script=Path(__file__).name, prompts=["loan_approval_completion.txt"],
+                   model=MODEL, listings=LISTINGS_PATH.name)
+    print(f"{len(results)} rows -> {out_path}")
 
 
 if __name__ == "__main__":

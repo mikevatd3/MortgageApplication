@@ -7,6 +7,7 @@ from tqdm import tqdm
 from transformer_lens import HookedTransformer
 
 from mortgageapplication import load_prompt_template
+from mortgageapplication.outputs import output_path, write_run_info
 
 load_dotenv()
 
@@ -15,7 +16,7 @@ MODEL = "google/gemma-2-9b"
 HOOK = "blocks.20.hook_resid_post"
 DATA_DIR = Path(__file__).parent.parent / "data"
 NAMES_PATH = DATA_DIR / "uniform_names_2026-10-24.csv"
-OUT_PATH = DATA_DIR / "name_activations_gemma-2-9b.npz"
+OUT_STEM = "name_activations_gemma-2-9b"
 
 
 def to_prompt(template, full_name):
@@ -39,7 +40,10 @@ def main():
             acts.append(cache[HOOK][0, -1].float().cpu().numpy())
 
     # full_name rides along so predictions can be joined back to the names
-    np.savez(OUT_PATH, X=np.stack(acts), y=frame.bla_full.values, full_name=np.array(frame.full_name.tolist(), dtype=str))
+    out_path = output_path(DATA_DIR, OUT_STEM, ".npz")
+    np.savez(out_path, X=np.stack(acts), y=frame.bla_full.values, full_name=np.array(frame.full_name.tolist(), dtype=str))
+    write_run_info(out_path, script=Path(__file__).name, prompts=["simple_name.txt"], model=MODEL, hook=HOOK)
+    print(f"{len(acts)} names -> {out_path}")
 
 
 if __name__ == "__main__":

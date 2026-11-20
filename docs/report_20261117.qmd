@@ -51,9 +51,7 @@ from plotly.offline import get_plotlyjs
 display(HTML(f"<script>{get_plotlyjs()}</script>"))
 ```
 
-## The tasks
-
-### Do-over from last week
+## Do-over from last week
 
 I'm re-trying the approve-review task from last week, but applying title case to
 the names because after inspecting the `gemma-2-9b` vocabulary, all caps doesn't

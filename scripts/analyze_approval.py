@@ -2,9 +2,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from mortgageapplication.outputs import latest_output
+
 
 CHALLENGE = "challenge_tables_2026-10-23_full"
-RESULT_NAME = "approvals__completion.csv"
+RESULT_STEM = "approvals__completion"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 
 RACES = ["whi", "bla", "his", "asi", "oth"]
@@ -25,7 +27,7 @@ def paired_vs_white(frame, value):
 
 
 def main():
-    frame = pd.read_csv(DATA_DIR / RESULT_NAME)
+    frame = pd.read_csv(latest_output(DATA_DIR, RESULT_STEM, ".csv"))
 
     # Positive = leans toward "approve" over "review".
     frame["log_odds"] = frame["logprob_approve"] - frame["logprob_review"]

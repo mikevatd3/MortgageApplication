@@ -2,12 +2,14 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from mortgageapplication.outputs import latest_output
+
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 
 DATA_DIR = Path(__file__).parent.parent / "data"
-DLA_PATH = DATA_DIR / "approval_dla_gemma-2-9b.parquet"
+DLA_STEM = "approval_dla_gemma-2-9b"
 
 RACES = ["whi", "bla", "his", "asi", "oth"]
 
@@ -60,7 +62,7 @@ def plot_layers(tables, title, panel_titles):
 
 
 def main():
-    frame = pd.read_parquet(DLA_PATH)
+    frame = pd.read_parquet(latest_output(DATA_DIR, DLA_STEM, ".parquet"))
 
     # One logit difference per (set, race): positive = leans toward "approve".
     decisions = frame.groupby(["set", "top"])["logit_diff"].first().unstack("top")

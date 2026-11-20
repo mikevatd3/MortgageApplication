@@ -5,11 +5,12 @@ import pandas as pd
 import tqdm
 
 from mortgageapplication import fill_application_prompt, load_prompt_template
+from mortgageapplication.outputs import output_path, write_run_info
 
 CHALLENGE = "challenge_tables_2026-10-23_full"
 DATA_DIR = Path(__file__).parent.parent / "data" / CHALLENGE
 MODEL = "google/gemma-2-9b"
-OUT_PATH = DATA_DIR / "approvals__completion.csv"
+OUT_STEM = "approvals__completion"
 
 # The pair of decision words whose first-token logits are recorded.
 WORDS = ("approve", "review")
@@ -40,7 +41,8 @@ def main():
 
         # One applicant per prompt: the test applicant, at row `position` of the table.
         applicant = frame.loc[int(file.position)].to_dict()
-        applicant["name"] = f"{applicant['last_name']}, {applicant['first_name']}"
+        # Title case, matching collect_approval_dla.py ("YAMADA, TAKAHIRO" -> "Yamada, Takahiro").
+        applicant["name"] = f"{applicant['last_name']}, {applicant['first_name']}".title()
 
         for variant in VARIANTS:
             prompt = fill_application_prompt(prompt_template, applicant)
@@ -65,8 +67,10 @@ def main():
             rows.append(row)
 
     results = pd.DataFrame(rows)
-    results.to_csv(OUT_PATH, index=False)
-    print(f"{len(results)} rows -> {OUT_PATH}")
+    out_path = output_path(DATA_DIR, OUT_STEM, ".csv")
+    results.to_csv(out_path, index=False)
+    write_run_info(out_path, script=Path(__file__).name, prompts=["loan_approval_completion.txt"], model=MODEL)
+    print(f"{len(results)} rows -> {out_path}")
 
 
 if __name__ == "__main__":
